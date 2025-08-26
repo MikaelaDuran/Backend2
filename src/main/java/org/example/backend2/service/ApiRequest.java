@@ -36,6 +36,8 @@ public class ApiRequest {
             Product[] products = mapper.readValue(jsonResponse.toString(), Product[].class);
 
             for (Product product : products) {
+                //TODO: Save product to database instead of printing it out
+                //REPOSITORY.save(product);
                 System.out.println("Saved product : " + product.getTitle());
             }
 
