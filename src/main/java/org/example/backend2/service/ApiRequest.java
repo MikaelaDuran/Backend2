@@ -15,40 +15,6 @@ import java.net.URL;
 @Service
 public class ApiRequest {
 
-    public void getProducts() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        URL url = new URL("https://fakestoreapi.com/products");
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("GET");
-        con.connect();
-
-        //InputStreamReader reads bytes and decodes them into text
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
-            //All the JSON data will be stored in this StringBuilder (en sträng)
-            StringBuilder jsonResponse = new StringBuilder();
-
-            //A variable to hold one line of the JSON data
-            String line;
-
-            //in.readLine reads one line at a time
-            while ((line = in.readLine()) != null) {
-                jsonResponse.append(line);
-            }
-
-            Product[] products = mapper.readValue(jsonResponse.toString(), Product[].class);
-
-            for (Product product : products) {
-                //TODO: Save product to database instead of printing it out
-                //REPOSITORY.save(product);
-                System.out.println("Saved product : " + product.getTitle());
-            }
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
 
     public void getProductsRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
@@ -56,13 +22,16 @@ public class ApiRequest {
         String response = restTemplate.getForObject(url, String.class);
 
         //JSON string
-        System.out.println(response);
+        //System.out.println(response);
 
         //Array of products
         Product [] products = restTemplate.getForObject(url, Product[].class);
         if (products != null) {
             for (Product product : products) {
                 System.out.println(product.getTitle());
+                //REPOSITORY.SAVE(OBJECT);
+                //Spara i DB. Kontroller om produkten finns redan finns och uppdatera i så fall.
+                //Kontroller om produkten har raderats och i så fall ta bort den.
             }
         }
     }
