@@ -17,7 +17,7 @@ public class LoadProductIT {
 
     @Test
     public void loadProduct() throws IOException {
-        Product[] products = fakeStoreApiRequestService.getProducts();
+        Product[] products = fakeStoreApiRequestService.getProductsRestTemplate();
 
         assertNotNull(products);
         assertTrue(products.length > 0);
