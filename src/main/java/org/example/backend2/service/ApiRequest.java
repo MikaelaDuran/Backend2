@@ -2,7 +2,9 @@ package org.example.backend2.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend2.models.Product;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,7 +24,7 @@ public class ApiRequest {
 
         //InputStreamReader reads bytes and decodes them into text
         try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
-            //All the JSON data will be stored in this StringBuilder (en sträng
+            //All the JSON data will be stored in this StringBuilder (en sträng)
             StringBuilder jsonResponse = new StringBuilder();
 
             //A variable to hold one line of the JSON data
@@ -43,6 +45,25 @@ public class ApiRequest {
 
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+
+
+    public void getProductsRestTemplate() {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "https://fakestoreapi.com/products";
+        String response = restTemplate.getForObject(url, String.class);
+
+        //JSON string
+        System.out.println(response);
+
+        //Array of products
+        Product [] products = restTemplate.getForObject(url, Product[].class);
+        if (products != null) {
+            for (Product product : products) {
+                System.out.println(product.getTitle());
+            }
         }
     }
 
