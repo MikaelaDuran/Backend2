@@ -1,4 +1,8 @@
 package org.example.backend2.repository;
 
-public class ProductRepository {
+import org.example.backend2.models.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+
+public interface ProductRepository extends JpaRepository<Product, Long> {
 }
