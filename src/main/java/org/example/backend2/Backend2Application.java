@@ -1,22 +1,19 @@
 package org.example.backend2;
 
-import jdk.jfr.RecordingState;
-import org.example.backend2.models.Product;
-import org.example.backend2.service.ApiRequest;
+import org.example.backend2.service.FakeStoreApiRequestService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 public class Backend2Application implements CommandLineRunner {
 
     //TODO : För att testa skriva ut produkterna i konsolen
 
-    private final ApiRequest apiRequest;
+    private final FakeStoreApiRequestService fakeStoreApiRequestService;
 
-    public Backend2Application(ApiRequest apiRequest) {
-        this.apiRequest = apiRequest;
+    public Backend2Application(FakeStoreApiRequestService fakeStoreApiRequestService) {
+        this.fakeStoreApiRequestService = fakeStoreApiRequestService;
     }
 
 
@@ -30,7 +27,7 @@ public class Backend2Application implements CommandLineRunner {
     //TODO : För att testa skriva ut produkterna i konsolen
     @Override
     public void run(String... args) throws Exception {
-        apiRequest.getProductsRestTemplate();
+        fakeStoreApiRequestService.getProductsRestTemplate();
     }
 
 }
