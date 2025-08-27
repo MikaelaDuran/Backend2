@@ -16,20 +16,20 @@ public class FakeStoreProductSyncService {
 
     private final ProductRepository productRepository;
 
-    public void syncProductsFromApi() {
+    public Product[] syncProductsFromApi() {
 
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://fakestoreapi.com/products";
         Product[] apiProducts = restTemplate.getForObject(url, Product[].class);
 
-        if (apiProducts == null) {
-            System.out.println(("API returned null response"));
-            return;
-        }
-        syncProducts(apiProducts);
+//        if (apiProducts == null) {
+//            System.out.println(("API returned null response"));
+//            return;
+//        }
+        return apiProducts;
     }
 
-    private void syncProducts(Product[] apiProducts) {
+    public void syncProducts(Product[] apiProducts) {
         Map<Long, Product> existingProducts = productRepository.findAll()
                 .stream()
                 .collect(Collectors.toMap(Product::getId, Function.identity()));
