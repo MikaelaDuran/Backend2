@@ -11,9 +11,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 @Service
-public class ApiRequest {
+public class FakeStoreApiRequestService {
 
-    public void getProducts() throws IOException {
+    public Product[] getProducts() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         URL url = new URL("https://fakestoreapi.com/products");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -35,11 +35,7 @@ public class ApiRequest {
 
             Product[] products = mapper.readValue(jsonResponse.toString(), Product[].class);
 
-            for (Product product : products) {
-                //TODO: Save product to database instead of printing it out
-                //REPOSITORY.save(product);
-                System.out.println("Saved product : " + product.getTitle());
-            }
+            return products;
 
         } catch (IOException e) {
             throw new RuntimeException(e);
