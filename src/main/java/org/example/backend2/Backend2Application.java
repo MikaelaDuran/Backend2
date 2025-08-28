@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Backend2Application implements CommandLineRunner {
 
     //TODO : För att testa skriva ut produkterna i konsolen
+    //TEMP to send branch
 
     private final FakeStoreProductSyncService fakeStoreProductSyncService;
 
