@@ -13,6 +13,38 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-//Security Filter Chain
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http
+                .csrf((crsf ->crsf.disable()));
+
+        http
+                .authorizeHttpRequests((auth) -> auth
+                        .requestMatchers("/login","/register").permitAll()
+                        .requestMatchers("/user").hasRole("USER")
+                        .requestMatchers("/admin").hasRole("ADMIN")
+                        .anyRequest().authenticated()
+                );
+
+        http
+                .formLogin((auth)-> auth.loginPage("/login")
+                        .loginProcessingUrl("/loginProc")
+                        //.defaultSuccessUrl("/welcomwPage")
+                        .permitAll()
+                );
+
+        http
+                .logout((auth) -> auth.logoutUrl("/logout")
+                        .logoutSuccessUrl("/"));
+
+        return http.build();
+    }
+
 
 }

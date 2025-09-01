@@ -23,6 +23,8 @@ public class AppUser {
 
     //Add Email if needed / have time
 
-    @ManyToMany
-    private List<Role> roles;
+   /* @ManyToMany
+    private List<Role> roles;*/
+
+    private String role;
 }
