@@ -12,22 +12,20 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserService{
 
     private UserRepository userRepository;
 
     private PasswordEncoder passwordEncoder;
 
-    /*
     @Bean
     public UserDetailsService userDetailsService(){
-        return String username -> userRepository.findByUsername(username)
-                .map(user-> user.builder()
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .roles(user.getRole().replace("ROLE_",""))
-                .build()
+        return username -> userRepository.findByUsername(username)
+                .map(user -> User.builder()
+                        .username(user.getUsername())
+                        .password(user.getPassword())
+                        .roles(user.getRole().replace("ROLE_","")) //Spring Security lägger automatiskt till "ROLE_" prefixet
+                        .build())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
-    */
 }
