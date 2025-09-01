@@ -1,5 +1,6 @@
 package org.example.backend2;
 
+import org.example.backend2.models.Product;
 import org.example.backend2.service.FakeStoreProductSyncService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -28,7 +29,8 @@ public class Backend2Application implements CommandLineRunner {
     //TODO : För att testa skriva ut produkterna i konsolen
     @Override
     public void run(String... args) throws Exception {
-        fakeStoreProductSyncService.syncProductsFromApi();
+        Product[] products = fakeStoreProductSyncService.syncProductsFromApi();
+        fakeStoreProductSyncService.syncProducts(products);
     }
 
 }
