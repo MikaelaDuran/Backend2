@@ -29,7 +29,7 @@ public class SecurityConfig {
 
         http.formLogin((auth) -> auth.loginPage("/login")
                 .loginProcessingUrl("/loginProc")
-                //.defaultSuccessUrl("/welcomwPage")
+                //.defaultSuccessUrl("/welcomePage")
                 .permitAll()
         );
 
