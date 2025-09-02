@@ -4,9 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -21,30 +19,24 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http
-                .csrf((crsf ->crsf.disable()));
+        http.csrf((crsf -> crsf.disable()));
+        http.authorizeHttpRequests((auth) -> auth
+                .requestMatchers("/login", "/register").permitAll()
+                .requestMatchers("/user").hasRole("USER")
+                .requestMatchers("/admin").hasRole("ADMIN")
+                .anyRequest().authenticated()
+        );
 
-        http
-                .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login","/register").permitAll()
-                        .requestMatchers("/user").hasRole("USER")
-                        .requestMatchers("/admin").hasRole("ADMIN")
-                        .anyRequest().authenticated()
-                );
+        http.formLogin((auth) -> auth.loginPage("/login")
+                .loginProcessingUrl("/loginProc")
+                //.defaultSuccessUrl("/welcomwPage")
+                .permitAll()
+        );
 
-        http
-                .formLogin((auth)-> auth.loginPage("/login")
-                        .loginProcessingUrl("/loginProc")
-                        //.defaultSuccessUrl("/welcomwPage")
-                        .permitAll()
-                );
-
-        http
-                .logout((auth) -> auth.logoutUrl("/logout")
-                        .logoutSuccessUrl("/"));
+        http.logout((auth) -> auth.logoutUrl("/logout")
+                .logoutSuccessUrl("/"));
 
         return http.build();
     }
-
-
+    
 }
