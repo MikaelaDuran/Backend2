@@ -73,9 +73,8 @@
 
 
             <th>Order ID</th>
+            <th>User ID</th>
             <th>Email</th>
-            <th>Amount ($)</th>
-            <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -121,9 +120,9 @@
       // Fake orders data
       //Varibale "orders" is an array of objects and we switch it for our database later
       let orders = [
-        {id: 1, email: "user1@mail.com", amount: 120.50, status: "Paid"},
-        {id: 2, email: "user2@mail.com", amount: 75.00, status: "Pending"},
-        {id: 3, email: "user3@mail.com", amount: 200.00, status: "Shipped"},
+        {id: 1,userID: 1234, email: "user1@mail.com"},
+        {id: 2,userID: 7345,  email: "user2@mail.com"},
+        {id: 3,userID: 8430,  email: "user3@mail.com"},
       ];
 
       const ordersTable = document.getElementById("ordersTable");
@@ -134,9 +133,8 @@
           let row = document.createElement("tr");
           row.innerHTML = `
             <td>${order.id}</td>
-            <td>${order.email}</td>
-            <td>${order.amount.toFixed(2)}</td>
-            <td>${order.status}</td>
+            <td>${order.userID}</td>
+            <td><button class='btn btn-secondary btn-sm' onclick='showOrder(${order.id})'>Details</button></td>
             <td><button class='btn btn-danger btn-sm' onclick='deleteOrder(${order.id})'>Delete</button></td>
           `;
           ordersTable.appendChild(row);
@@ -146,6 +144,13 @@
       function deleteOrder(id){
         orders = orders.filter(order => order.id !== id);
         renderOrders();
+      }
+      //ADD LOGIC
+      function showOrder(id){
+
+
+
+
       }
 
       renderOrders();
