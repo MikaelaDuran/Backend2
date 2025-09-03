@@ -33,11 +33,10 @@ public class UserService {
         }
         userRepository.save(user);
     }
-    
 
     // register new user.
     public boolean registerUser(RegistrationRequest request) {
-        if(userRepository.findByUsername(request.getUsername()).isPresent()){
+        if (userRepository.findByUsername(request.getUsername()).isPresent()) {
             return false;
         }
 
