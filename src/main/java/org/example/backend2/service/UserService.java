@@ -30,11 +30,16 @@ public class UserService {
         userRepository.save(user);
     }
 
-    // register new user
+    // register new user.
     public String registerUser(RegistrationRequest request) {
+        //TODO: Kontrollera att username inte redan finns i DB?
+        if(userRepository.findByUsername(request.getUsername()).isPresent()){
+            return "Username already exists";
+        }
+
         Role role = roleRepository.findByName(request.getRole())
                 .orElseThrow(() -> new RuntimeException("Role not found"));
-        
+
         AppUser user = AppUser.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -54,6 +59,7 @@ public class UserService {
     public String authenticateUser(String username, String password) {
         AppUser user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
         if (!passwordEncoder.matches(password, user.getPassword())) {
             return "Username or password is not correct";
         }
