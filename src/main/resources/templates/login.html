@@ -7,11 +7,11 @@
 <body>
 login page
 
-<form action="/login" method="post" name="loginForm">
+<form action="/login" name="loginForm">
     <input id="username" type="text" name="username" placeholder="id"/>
     <input id="password" type="password" name="password" placeholder="password"/>
-    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
     <input type="submit" value="login"/>
+    
 </form>
 
 </body>

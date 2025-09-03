@@ -9,11 +9,12 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegistrationRequest {
+public class RoleUpdate {
     @NotEmpty(message = "Username is mandatory")
     @NotBlank(message = "Username is mandatory")
     private String username;
-    @NotEmpty(message = "Password is mandatory")
-    @NotBlank(message = "Password is mandatory")
-    private String password;
+    @NotEmpty(message = "Role is mandatory")
+    @NotBlank(message = "Role is mandatory")
+    private String role;
+    private boolean shouldAssign;
 }

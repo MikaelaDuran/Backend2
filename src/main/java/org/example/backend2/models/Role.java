@@ -18,5 +18,9 @@ public class Role {
     private Long id;
 
     @Column(unique = true)
-    private String name; 
+    private String name;
+
+    public Role(String name) {
+        this.name = name;
+    }
 }

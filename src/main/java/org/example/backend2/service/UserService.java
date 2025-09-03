@@ -2,6 +2,7 @@ package org.example.backend2.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.backend2.dto.RegistrationRequest;
+import org.example.backend2.dto.RoleUpdate;
 import org.example.backend2.models.AppUser;
 import org.example.backend2.models.Role;
 import org.example.backend2.repository.RoleRepository;
@@ -16,28 +17,31 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     //update role
-    public void assignRoleToUser(String username, String roleName) {
-        AppUser user = userRepository.findByUsername(username)
+    public void assignRoleToUser(RoleUpdate roleUpdate) {
+        AppUser user = userRepository.findByUsername(roleUpdate.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        Role role = roleRepository.findByName(roleName)
+        Role role = roleRepository.findByName(roleUpdate.getRole())
                 .orElseThrow(() -> new RuntimeException("Role not found"));
 
-        user.getRoles().add(role);
+        if (roleUpdate.isShouldAssign()) {
+            user.getRoles().add(role);
+        } else {
+            user.getRoles().remove(role);
+        }
         userRepository.save(user);
     }
+    
 
     // register new user.
-    public String registerUser(RegistrationRequest request) {
-        //TODO: Kontrollera att username inte redan finns i DB?
+    public boolean registerUser(RegistrationRequest request) {
         if(userRepository.findByUsername(request.getUsername()).isPresent()){
-            return "Username already exists";
+            return false;
         }
 
-        Role role = roleRepository.findByName(request.getRole())
+        Role role = roleRepository.findByName("USER")
                 .orElseThrow(() -> new RuntimeException("Role not found"));
 
         AppUser user = AppUser.builder()
@@ -48,11 +52,10 @@ public class UserService {
 
         try {
             userRepository.save(user);
-            return "Success";
+            return true;
         } catch (Exception e) {
-            return "Registration failed";
+            throw new RuntimeException("Registration failed");
         }
-
     }
 
     // verify log in
