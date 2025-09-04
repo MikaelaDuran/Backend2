@@ -2,12 +2,10 @@ package org.example.backend2.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.backend2.dto.RegistrationRequest;
-import org.example.backend2.dto.RoleUpdate;
 import org.example.backend2.models.AppUser;
 import org.example.backend2.models.Role;
 import org.example.backend2.repository.RoleRepository;
 import org.example.backend2.repository.UserRepository;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,19 +17,35 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    //update role
-    public void assignRoleToUser(RoleUpdate roleUpdate) {
-        AppUser user = userRepository.findByUsername(roleUpdate.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        Role role = roleRepository.findByName(roleUpdate.getRole())
-                .orElseThrow(() -> new RuntimeException("Role not found"));
+    private static final String DEFAULT_ROLE = "USER";
 
-        if (roleUpdate.isShouldAssign()) {
+    
+    public void assignRoleToUser(String username, String roleName) {
+        AppUser user = findUser(username);
+        Role role = findRole(roleName);
+        if (!user.getRoles().contains(role)) {
             user.getRoles().add(role);
-        } else {
-            user.getRoles().remove(role);
+            userRepository.save(user);
         }
-        userRepository.save(user);
+    }
+
+    public void removeRoleFromUser(String username, String roleName) {
+        AppUser user = findUser(username);
+        Role role = findRole(roleName);
+
+        if (user.getRoles().remove(role)) {
+            userRepository.save(user);
+        }
+    }
+
+    private AppUser findUser(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    private Role findRole(String roleName) {
+        return roleRepository.findByName(roleName)
+                .orElseThrow(() -> new RuntimeException("Role not found"));
     }
 
     // register new user.
@@ -40,9 +54,7 @@ public class UserService {
             return false;
         }
 
-        Role role = roleRepository.findByName("USER")
-                .orElseThrow(() -> new RuntimeException("Role not found"));
-
+        Role role = findRole(DEFAULT_ROLE);
         AppUser user = AppUser.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -59,8 +71,7 @@ public class UserService {
 
     // verify log in
     public String authenticateUser(String username, String password) {
-        AppUser user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        AppUser user = findUser(username);
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
             return "Username or password is not correct";
