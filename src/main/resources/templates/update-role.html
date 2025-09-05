@@ -24,7 +24,7 @@
         <td th:text="${appUser.id}">1</td>
         <td th:text="${appUser.username}">Username</td>
         <td th:text="${#strings.listJoin(appUser.roles, ', ')}">USER, ADMIN</td>
-        <td><a th:href="@{|/all/${appUser.id}/edit|}" class="btn btn-sm btn-primary">Update</a></td>
+        <td><a th:href="@{|/all/${appUser.id}/role|}" class="btn btn-sm btn-primary">Update</a></td>
         <td>
             <form th:action="@{|/all/${appUser.id}/delete|}" method="post">
                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>

@@ -13,8 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("app-users")
+@Controller
 @RequiredArgsConstructor
 
 public class UserController {
@@ -46,6 +45,7 @@ public class UserController {
         return "register";
     }
 
+    //Kierans metod
     /*
     @GetMapping("/assign-role")
     public String showAssignRole(Model model) {
@@ -54,32 +54,42 @@ public class UserController {
     }*/
 
 
-    @GetMapping("/get-all-users")
-    public List<UserDTO> getAllUsers() {
-        return userService.findAllUsersDTO();
 
+    //TODO: NU LIGGER ALLT PÅ PERMIT ALL. ANNARS KAN VI INTE TESTA
+    ///all-users","/all/{id}/delete","/all/{id}/role").permitAll()
+    //Hämta alla användarna till user-role.html vyn
+    @GetMapping("/all")
+    public String allUsers(Model model) {
+        List<UserDTO> appUsers = userService.findAllUsersDTO(); // hämta DTO:et
+        model.addAttribute("appUsers", appUsers);               // nyckel som vyn använder
+        return "update-role";
     }
 
-
-
-    @PostMapping("/all-users/{id}/delete")
-    public String deleteAppUser(@PathVariable Long id, RedirectAttributes redirectAttributes,Model model) {
+    //Delete user från vyn user-role.html
+    @PostMapping("/all/{id}/delete")
+    public String deleteAppUser(@PathVariable Long id, RedirectAttributes redirectAttributes, Model model) {
         try{
-        userService.deleteUser(id);
-        redirectAttributes.addFlashAttribute("message", "Customer #" + id + " deleted successfully");
+            userService.deleteUser(id);
+            redirectAttributes.addFlashAttribute("message", "Customer #" + id + " deleted successfully");
         } catch (Exception e) {
-        redirectAttributes.addFlashAttribute("error", "Failed to delete customer #" + id + ": " + e.getMessage());
-    }
-        return "redirect:/update-role";
+            redirectAttributes.addFlashAttribute("error", "Failed to delete customer #" + id + ": " + e.getMessage());
+        }
+        return "redirect:/all";
     }
 
-    /*
-    @PostMapping("/all-users/{id}/role")
-    public String updateRole(@PathVariable Long id, @ModelAttribute RoleUpdate roleUpdate, RedirectAttributes redirectAttributes) {
-        try{
-            userService.updateUserRole(id, roleUpdate);
-        }catch (Exception e){
+    // PÅBÖRJAT UPDATE ROLES
+
+    @PostMapping("/all/{id}/role")
+    public String updateRole(@PathVariable Long id/* ,@ModelAttribute RoleUpdate roleUpdate*/, RedirectAttributes redirectAttributes) {
+        try {
+            System.out.println("HEJ");
+            //userService.updateUserRole(id, roleUpdate);
+        } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Failed to update customer #" + id + ": " + e.getMessage());
-        }return "update-role";
-    }*/
+        }
+        return "redirect:/all";
+    }
+
+
+
 }

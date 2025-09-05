@@ -2,6 +2,8 @@ package org.example.backend2.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.backend2.dto.RegistrationRequest;
+import org.example.backend2.dto.UserDTO;
+import org.example.backend2.mapper.UserMapper;
 import org.example.backend2.models.AppUser;
 import org.example.backend2.models.Role;
 import org.example.backend2.repository.RoleRepository;
