@@ -68,7 +68,7 @@
           <tr>
 
 
-             <!-- Change depending on our inputs -->
+             <!-- TODO Change depending on our inputs -->
 
 
 
@@ -106,23 +106,24 @@
 
     <!-- ADMIN JS -->
     <script>
-      // Admin Login varibale (idk how we will do it later)
-      let isAdmin = true; 
-
+      // Admin Login
+      //TODO
+      //Add Admin Logged in Logic
+      let isAdmin = true;
       const loginStatus = document.getElementById('loginStatus');
       const ordersSection = document.getElementById('ordersSection');
-
       if(isAdmin){
         loginStatus.innerText = "Admin Logged in";
         ordersSection.style.display = "block";
       }
 
-      // Fake orders data
-      //Varibale "orders" is an array of objects and we switch it for our database later
+      //TODO
+      //orders should be switched to DB
+      //Change vars to match DB
       let orders = [
         {id: 1,userID: 1234, email: "user1@mail.com"},
-        {id: 2,userID: 7345,  email: "user2@mail.com"},
-        {id: 3,userID: 8430,  email: "user3@mail.com"},
+        {id: 2,userID: 7345, email: "user2@mail.com"},
+        {id: 3,userID: 8430, email: "user3@mail.com"},
       ];
 
       const ordersTable = document.getElementById("ordersTable");
@@ -132,11 +133,11 @@
         orders.forEach(order => {
           let row = document.createElement("tr");
           row.innerHTML = `
-            <td>${order.id}</td>
-            <td>${order.userID}</td>
-            <td><button class='btn btn-secondary btn-sm' onclick='showOrder(${order.id})'>Details</button></td>
-            <td><button class='btn btn-danger btn-sm' onclick='deleteOrder(${order.id})'>Delete</button></td>
-          `;
+        <td>${order.id}</td>
+        <td>${order.userID}</td>
+        <td><button class='btn btn-secondary btn-sm' onclick='showOrder(${order.id})'>Details</button></td>
+        <td><button class='btn btn-danger btn-sm' onclick='deleteOrder(${order.id})'>Delete</button></td>
+      `;
           ordersTable.appendChild(row);
         });
       }
@@ -145,15 +146,52 @@
         orders = orders.filter(order => order.id !== id);
         renderOrders();
       }
-      //ADD LOGIC
-      function showOrder(id){
 
+      // Show orders makes a popup that show all details
+      function showOrder(id) {
+        const orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
+        const orderModalBody = document.getElementById('orderModalBody');
+        orderModalBody.innerHTML = "<p>Loading...</p>";
 
-
-
+        //TODO
+        //Change Details to match DB
+        try {
+          let order = orders.find(o => o.id === id);
+          orderModalBody.innerHTML = `
+        <p><strong>Order ID:</strong> ${order.id}</p>
+        <p><strong>User ID:</strong> ${order.userID}</p>
+        <p><strong>Email:</strong> ${order.email}</p>
+        <hr>
+        //List all Products
+        <p><em>List Products in order here</em></p>
+      `;
+        } catch (error) {
+          orderModalBody.innerHTML = `<p class="text-danger">Error loading order details.</p>`;
+          console.error(error);
+        }
+        orderModal.show();
       }
-
       renderOrders();
     </script>
+
+    <!-- Order Details Modal -->
+    <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="orderModalLabel">Order Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="orderModalBody">
+            <!-- Order details will load here -->
+
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
