@@ -50,13 +50,37 @@
                    required>
         </div>
 
+        <div th:if="${param.error}" class="alert alert-danger">
+            Invalid username or password
+        </div>
+
         <button type="submit" class="btn btn-primary w-100">Login</button>
     </form>
 
     <div class="text-center mt-3">
-        <p>Do you want to create an account?<a href="/register">Create Account</a></p>
+        <p>Do you want to create an account?
+            <br>
+            <a href="/register">Create Account</a></p>
     </div>
 </div>
+
+<script>
+    document.getElementById('createAccountForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const adminKey = document.getElementById('adminKey').value.trim();
+
+        if (!username || !password) {
+            alert('Please enter both a username and password.');
+            return;
+        }
+
+        // Reset form
+        e.target.reset();
+    });
+</script>
 
 </body>
 </html>

@@ -21,14 +21,17 @@ public class SecurityConfig {
 
         http.csrf((crsf -> crsf.disable()));
         http.authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/index","/login", "/register","/all","/all/{id}/delete","/all/{id}/role").permitAll()
+                .requestMatchers("/","/login", "/register",
+                        "/css/**","/images/**","/js/**",
+                        "/AboutUs.html", "/order-confirmation.html", "/order-form.html", "/products.html",
+                        "/all","/all/{id}/delete","/all/{id}/role").permitAll()
                 .requestMatchers("/user").hasRole("USER")
                 .requestMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().authenticated()
         );
 
         http.formLogin((auth) -> auth.loginPage("/login")
-                .defaultSuccessUrl("/index")
+                .defaultSuccessUrl("/", true)
                 .permitAll()
         );
 

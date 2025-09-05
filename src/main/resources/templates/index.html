@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Web Shop</title>
-    <script src="Cart.js"></script>
-    <link rel="stylesheet" href="style.css" />
+    <script src="../js/Cart.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
@@ -25,13 +25,13 @@
           <!-- Image Logo-->
 
           <img
-            src="images/logoipsum-361.svg"
+            src="../images/logoipsum-361.svg"
             alt="Logo"
             width="50"
             height="50"
             class="d-inline-block align-text-top"
           />
-          <a class="navbar-brand ms-3" href="index.html"
+          <a class="navbar-brand ms-3" href="/"
             >Fake Store API Collection</a
           >
           <button
@@ -49,10 +49,9 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
 
-
                <!--Add Login Page / Pop up-->
               <li class="nav-item">
-                <button id="openModal" class="btn btn-link nav-link">Login</button>
+                <a href="login" class="btn btn-link nav-link">Login</a>
               </li>
 
 
@@ -74,38 +73,38 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="dropdown-item" href="products.html"
+                    <a class="dropdown-item" href="../products.html"
                       >All Products</a
                     >
                   </li>
                   <li>
-                    <a class="dropdown-item" href="products.html?category=men"
+                    <a class="dropdown-item" href="../products.html?category=men"
                       >Mens Clothing</a
                     >
                   </li>
                   <li>
-                    <a class="dropdown-item" href="products.html?category=women"
-                      >Womans Clothing</a
+                    <a class="dropdown-item" href="../products.html?category=women"
+                      >Womens Clothing</a
                     >
                   </li>
                   <li>
                     <a
                       class="dropdown-item"
-                      href="products.html?category=jewelery"
+                      href="../products.html?category=jewelery"
                       >Jewelery</a
                     >
                   </li>
                   <li>
                     <a
                       class="dropdown-item"
-                      href="products.html?category=electronics"
+                      href="../products.html?category=electronics"
                       >Electronics</a
                     >
                   </li>
                   <li><hr class="dropdown-divider" /></li>
                   <li>
-                    <a class="dropdown-item" href="AboutUs.html">About Us</a>
-                    <a class="dropdown-item" href="AboutUs.html#contactID"
+                    <a class="dropdown-item" href="../AboutUs.html">About Us</a>
+                    <a class="dropdown-item" href="../AboutUs.html#contactID"
                       >Contact Us</a
                     >
                   </li>
@@ -133,15 +132,15 @@
       <div class="row my-5">
         <div class="col-md-3">
           <!-- Catagories / carousel -->
-          <a href="products.html?category=women">
+          <a href="../products.html?category=women">
             <img
               class="category-image bg-image hover-zoom hover-overlay ripple img-fluid rounded-circle"
-              src="Images/Kvinna.png"
+              src="images/Kvinna.png"
               alt="Bild 1"
             />
           </a>
           <a
-            href="products.html?category=women"
+            href="../products.html?category=women"
             class="btn my-3 hover-zoom hover-overlay ripple d-block mx-auto"
             style="background-color: transparent; border-radius: 0"
           >
@@ -151,15 +150,15 @@
 
         <div class="col-md-3">
           <!-- Länk till kategorin "men" -->
-          <a href="products.html?category=men">
+          <a href="../products.html?category=men">
             <img
               class="category-image bg-image hover-zoom hover-overlay ripple img-fluid rounded-circle"
-              src="Images/Man.png"
+              src="images/Man.png"
               alt="Bild 1"
             />
           </a>
           <a
-            href="products.html?category=men"
+            href="../products.html?category=men"
             class="btn my-3 hover-zoom hover-overlay ripple d-block mx-auto"
             style="background-color: transparent; border-radius: 0"
           >
@@ -169,15 +168,15 @@
 
         <div class="col-md-3">
           <!-- Länk till kategorin "Jewlery" -->
-          <a href="products.html?category=jewelery">
+          <a href="../products.html?category=jewelery">
             <img
               class="category-image bg-image hover-zoom hover-overlay ripple img-fluid rounded-circle"
-              src="Images/Armband.png"
+              src="images/Armband.png"
               alt="Bild 1"
             />
           </a>
           <a
-            href="products.html?category=jewelery"
+            href="../products.html?category=jewelery"
             class="btn my-3 hover-zoom hover-overlay ripple d-block mx-auto"
             style="background-color: transparent; border-radius: 0"
           >
@@ -187,15 +186,15 @@
 
         <div class="col-md-3">
           <!-- Länk till kategorin "Electronics" -->
-          <a href="products.html?category=electronics">
+          <a href="../products.html?category=electronics">
             <img
               class="category-image bg-image hover-zoom hover-overlay ripple img-fluid rounded-circle"
-              src="Images/TV.png"
+              src="images/TV.png"
               alt="Bild 1"
             />
           </a>
           <a
-            href="products.html?category=electronics"
+            href="../products.html?category=electronics"
             class="btn my-3 hover-zoom hover-overlay ripple d-block mx-auto"
             style="background-color: transparent; border-radius: 0"
           >
@@ -265,36 +264,9 @@
     <!-- Lägg till Bootstrap JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="product.js"></script>
-      <script src="loginLogic.js"></script>
+    <script src="../js/product.js"></script>
+      <script src="../js/loginLogic.js"></script>
 
-
-      <!--MODAL POP UP LOGIN -->
-      <!-- Modal -->
-      <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="dialogTitle">
-        <div class="backdrop" data-close></div>
-        <div class="dialog" role="document">
-          <header>
-            <h2 id="dialogTitle">Login</h2>
-            <button class="close-btn" title="Close" aria-label="Close" data-close>&times;</button>
-          </header>
-          <form id="loginForm" action="#" method="post" novalidate>
-            <div>
-              <label for="username">Username</label>
-              <input id="username" name="username" type="text" autocomplete="username" required />
-            </div>
-            <div>
-              <label for="password">Password</label>
-              <input id="password" name="password" type="password" autocomplete="current-password" required />
-            </div>
-            <div class="actions">
-              <button type="submit" class="primary">Log In</button>
-              <button type="button" class="secondary" id="createAccount">Create an account</button>
-              <p class="hint">Forgot your password? Email Support</p>
-            </div>
-          </form>
-        </div>
-      </div>
     </div>
   </body>
 </html>

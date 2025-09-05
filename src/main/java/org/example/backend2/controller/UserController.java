@@ -21,11 +21,12 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public String userRegistration(RegistrationRequest registrationRequest) {
+    public String userRegistration(RegistrationRequest registrationRequest, Model model) {
         boolean success = userService.registerUser(registrationRequest);
         if (success) {
             return "redirect:/login";
         } else {
+            model.addAttribute("error", "User already exists");
             return "register";
         }
     }
