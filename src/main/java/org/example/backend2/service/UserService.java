@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -62,8 +63,8 @@ public class UserService {
         AppUser user = AppUser.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .roles(Set.of(role)) //initiate set of roles otherwise getRoles() return null
                 .build();
-        user.getRoles().add(role);
 
         try {
             userRepository.save(user);

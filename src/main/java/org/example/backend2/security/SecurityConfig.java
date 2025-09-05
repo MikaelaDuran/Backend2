@@ -21,20 +21,19 @@ public class SecurityConfig {
 
         http.csrf((crsf -> crsf.disable()));
         http.authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/login", "/register","/all","/all/{id}/delete","/all/{id}/role").permitAll()
+                .requestMatchers("/index","/login", "/register","/all","/all/{id}/delete","/all/{id}/role").permitAll()
                 .requestMatchers("/user").hasRole("USER")
                 .requestMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().authenticated()
         );
 
         http.formLogin((auth) -> auth.loginPage("/login")
-                .loginProcessingUrl("/loginProc")
-                //.defaultSuccessUrl("/welcomePage")
+                .defaultSuccessUrl("/index")
                 .permitAll()
         );
 
-        http.logout((auth) -> auth.logoutUrl("/logout")
-                .logoutSuccessUrl("/"));
+//        http.logout((auth) -> auth.logoutUrl("/logout")
+//                .logoutSuccessUrl("/"));
 
         return http.build();
     }

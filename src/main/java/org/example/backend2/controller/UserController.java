@@ -20,11 +20,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/login")
-    public String showLogin() {
-        return "login";
-    }
-
     @PostMapping("/register")
     public String userRegistration(RegistrationRequest registrationRequest) {
         boolean success = userService.registerUser(registrationRequest);
@@ -43,6 +38,12 @@ public class UserController {
     public String showRegister(Model model) {
         model.addAttribute("registrationRequest", new RegistrationRequest());
         return "register";
+    }
+
+    @GetMapping("/login")
+    public String showLogin(Model model) {
+        model.addAttribute("loginRequest", new RegistrationRequest());
+        return "login";
     }
 
     //Kierans metod
