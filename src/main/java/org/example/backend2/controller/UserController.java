@@ -2,12 +2,13 @@ package org.example.backend2.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.backend2.dto.RegistrationRequest;
+import org.example.backend2.dto.RoleUpdate;
+import org.example.backend2.models.AppUser;
 import org.example.backend2.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -19,7 +20,6 @@ public class UserController {
 
     @GetMapping("/login")
     public String showLogin() {
-
         return "login";
     }
 
@@ -44,7 +44,36 @@ public class UserController {
     }
 
     @GetMapping("/assign-role")
-    public String showAssignRole(@RequestParam String username, @RequestParam String role) {
+    public String showAssignRole(Model model) {
+        model.addAttribute("roleUpdate", new RoleUpdate());
         return "assign-role";
     }
+
+    @RequestMapping("/all-users")
+    public String getAllUsers(Model model) {
+        List<AppUser> appUsers = userService.findAllUsers();
+        model.addAttribute("appUsers", appUsers);
+        return "redirect:/update-role";
+    }
+
+    @PostMapping("/all-users/{id}/delete")
+    public String deleteAppUser(@PathVariable Long id, RedirectAttributes redirectAttributes,Model model) {
+        try{
+        userService.deleteUser(id);
+        redirectAttributes.addFlashAttribute("message", "Customer #" + id + " deleted successfully");
+        } catch (Exception e) {
+        redirectAttributes.addFlashAttribute("error", "Failed to delete customer #" + id + ": " + e.getMessage());
+    }
+        return "redirect:/update-role";
+    }
+
+    /*
+    @PostMapping("/all-users/{id}/role")
+    public String updateRole(@PathVariable Long id, @ModelAttribute RoleUpdate roleUpdate, RedirectAttributes redirectAttributes) {
+        try{
+            userService.updateUserRole(id, roleUpdate);
+        }catch (Exception e){
+            redirectAttributes.addFlashAttribute("error", "Failed to update customer #" + id + ": " + e.getMessage());
+        }return "update-role";
+    }*/
 }
