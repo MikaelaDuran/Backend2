@@ -37,11 +37,6 @@
             <label for="password" class="form-label">Password</label>
             <input id="password" type="password" class="form-control" required>
         </div>
-        <div class="mb-3">
-            <label for="adminKey" class="form-label">Admin Key (optional)</label>
-            <input id="adminKey" type="text" class="form-control">
-            <div class="form-text">Enter the special key if you want admin privileges.</div>
-        </div>
         <button type="submit" class="btn btn-primary w-100">Create Account</button>
     </form>
 </div>
@@ -52,23 +47,12 @@
 
         const username = document.getElementById('username').value.trim();
         const password = document.getElementById('password').value.trim();
-        const adminKey = document.getElementById('adminKey').value.trim();
 
         if (!username || !password) {
             alert('Please enter both a username and password.');
             return;
         }
 
-        //Connect to DB and see if they match
-        if (adminKey === "SECRET123") {
-            alert(`Welcome ${username}! You have been registered as an ADMIN.`);
-        }else if (adminKey ===""){
-            alert(`Welcome ${username}! Your account has been created.`);
-        }
-        else {
-            //Add if we wanna let them add the key again?
-            alert(`Welcome ${username}! But your NOT an admin! .`);
-        }
 
         // Reset form
         e.target.reset();
