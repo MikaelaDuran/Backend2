@@ -61,6 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('createAccount')?.addEventListener('click', () => {
-        window.location.href = "createAccount.html";
+        window.location.href = "register.html";
     });
 });

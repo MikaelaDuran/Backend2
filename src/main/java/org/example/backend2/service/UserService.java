@@ -2,6 +2,8 @@ package org.example.backend2.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.backend2.dto.RegistrationRequest;
+import org.example.backend2.dto.UserDTO;
+import org.example.backend2.mapper.UserMapper;
 import org.example.backend2.models.AppUser;
 import org.example.backend2.models.Role;
 import org.example.backend2.repository.RoleRepository;
@@ -10,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -60,8 +63,8 @@ public class UserService {
         AppUser user = AppUser.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .roles(Set.of(role)) //initiate set of roles otherwise getRoles() return null
                 .build();
-        user.getRoles().add(role);
 
         try {
             userRepository.save(user);
@@ -81,8 +84,8 @@ public class UserService {
         return "Login successful";
     }
 
-    public List<AppUser> findAllUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> findAllUsersDTO() {
+        return userRepository.findAll().stream().map(UserMapper::appUserToDto).toList();
     }
 
     public void deleteUser(Long id) {

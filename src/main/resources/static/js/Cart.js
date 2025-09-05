@@ -119,7 +119,7 @@ function payCart() {
   if (cartItems.length === 0) {
     alert("Your cart is empty!");
   } else {
-    location.href='order-form.html?product-id=${product.id}';
+    location.href='order-form.html';
   }
 }
 
