@@ -45,7 +45,7 @@ public class UserController {
 
     @GetMapping("/assign-role")
     public String showAssignRole(Model model) {
-        model.addAttribute("roleUpdate", new RoleUpdate());
+     //   model.addAttribute("roleUpdate", new RoleUpdate());
         return "assign-role";
     }
 
