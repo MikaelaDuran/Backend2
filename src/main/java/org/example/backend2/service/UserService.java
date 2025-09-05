@@ -81,8 +81,8 @@ public class UserService {
         return "Login successful";
     }
 
-    public List<AppUser> findAllUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> findAllUsersDTO() {
+        return userRepository.findAll().stream().map(UserMapper::appUserToDto).toList();
     }
 
     public void deleteUser(Long id) {

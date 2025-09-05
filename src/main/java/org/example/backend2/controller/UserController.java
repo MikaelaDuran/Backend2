@@ -2,7 +2,8 @@ package org.example.backend2.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.backend2.dto.RegistrationRequest;
-import org.example.backend2.dto.RoleUpdate;
+//import org.example.backend2.dto.RoleUpdate;
+import org.example.backend2.dto.UserDTO;
 import org.example.backend2.models.AppUser;
 import org.example.backend2.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -12,8 +13,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("app-users")
 @RequiredArgsConstructor
+
 public class UserController {
 
     private final UserService userService;
@@ -43,18 +46,21 @@ public class UserController {
         return "register";
     }
 
+    /*
     @GetMapping("/assign-role")
     public String showAssignRole(Model model) {
      //   model.addAttribute("roleUpdate", new RoleUpdate());
         return "assign-role";
+    }*/
+
+
+    @GetMapping("/get-all-users")
+    public List<UserDTO> getAllUsers() {
+        return userService.findAllUsersDTO();
+
     }
 
-    @RequestMapping("/all-users")
-    public String getAllUsers(Model model) {
-        List<AppUser> appUsers = userService.findAllUsers();
-        model.addAttribute("appUsers", appUsers);
-        return "redirect:/update-role";
-    }
+
 
     @PostMapping("/all-users/{id}/delete")
     public String deleteAppUser(@PathVariable Long id, RedirectAttributes redirectAttributes,Model model) {
