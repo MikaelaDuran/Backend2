@@ -77,19 +77,17 @@ public class UserController {
         return "redirect:/all";
     }
 
-    // PÅBÖRJAT UPDATE ROLES
+    // UPDATE ROLES
 
     @PostMapping("/all/{id}/role")
-    public String updateRole(@PathVariable Long id/* ,@ModelAttribute RoleUpdate roleUpdate*/, RedirectAttributes redirectAttributes) {
+    public String updateRole(@PathVariable Long id,  @RequestParam String role, RedirectAttributes redirectAttributes) {
         try {
-            System.out.println("HEJ");
-            //userService.updateUserRole(id, roleUpdate);
+            userService.updateRolesMetod(id, role);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Failed to update customer #" + id + ": " + e.getMessage());
         }
         return "redirect:/all";
     }
-
 
 
 }

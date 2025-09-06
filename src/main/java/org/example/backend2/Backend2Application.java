@@ -52,5 +52,15 @@ public class Backend2Application implements CommandLineRunner {
             userRepository.save(user);
         }
 
+        if (!userRepository.existsByUsername("TEST")) {
+            Role role = roleRepository.findByName("USER")
+                    .orElseThrow(() -> new RuntimeException("Role not found"));
+
+
+            AppUser user = new AppUser("TEST", passwordEncoder.encode("TEST"));
+            user.getRoles().add(role);
+            userRepository.save(user);
+        }
+
     }
 }

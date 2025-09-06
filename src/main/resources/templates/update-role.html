@@ -23,8 +23,39 @@
     <tr th:each="appUser : ${appUsers}">
         <td th:text="${appUser.id}">1</td>
         <td th:text="${appUser.username}">Username</td>
+        <!-- Nuvarande roller -->
         <td th:text="${#strings.listJoin(appUser.roles, ', ')}">USER, ADMIN</td>
-        <td><a th:href="@{|/all/${appUser.id}/role|}" class="btn btn-sm btn-primary">Update</a></td>
+
+        <!-- Uppdatera roller via rullista -->
+        <td>
+            <form th:action="@{|/all/${appUser.id}/role|}" method="post" class="row g-2">
+
+                <!-- Tre alternativ -->
+                <div class="col-8">
+                    <select name="role" class="form-select form-select-sm">
+                        <!-- Tolka användarens nuvarande roller som sammanslagen sträng -->
+                        <option value="USER"
+                                th:selected="${#strings.listJoin(appUser.roles, ', ') == 'USER'}">
+                            USER
+                        </option>
+                        <option value="ADMIN"
+                                th:selected="${#strings.listJoin(appUser.roles, ', ') == 'ADMIN'}">
+                            ADMIN
+                        </option>
+                        <!-- 'USER, ADMIN' -->
+                        <option value="USER,ADMIN"
+                                th:selected="${#strings.listJoin(appUser.roles, ', ') == 'USER, ADMIN'}">
+                            USER + ADMIN
+                        </option>
+                    </select>
+                </div>
+                <div class="col-4 d-grid">
+                    <button type="submit" class="btn btn-sm btn-success">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </td>
         <td>
             <form th:action="@{|/all/${appUser.id}/delete|}" method="post">
                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
