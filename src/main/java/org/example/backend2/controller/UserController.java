@@ -2,12 +2,14 @@ package org.example.backend2.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.backend2.dto.RegistrationRequest;
-import org.example.backend2.dto.RoleUpdate;
 import org.example.backend2.models.AppUser;
 import org.example.backend2.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;

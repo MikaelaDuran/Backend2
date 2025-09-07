@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
-    private long userId;
-    private String username;
+public class ProductDTO {
+    private long productId;
+    private int quantity;
 }
