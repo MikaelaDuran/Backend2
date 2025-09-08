@@ -3,8 +3,10 @@ package org.example.backend2.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.backend2.dto.RegistrationRequest;
+import org.example.backend2.dto.UserDTO;
 import org.example.backend2.exceptions.RoleNotFoundException;
 import org.example.backend2.exceptions.UserNotFoundException;
+import org.example.backend2.mapper.UserMapper;
 import org.example.backend2.models.AppUser;
 import org.example.backend2.models.Role;
 import org.example.backend2.repository.RoleRepository;
@@ -114,5 +116,10 @@ public class UserService {
             user.getRoles().add(adminRole);
         }
         userRepository.save(user);
+    }
+
+
+    public List<UserDTO> findAllUsersDTO() {
+        return userRepository.findAll().stream().map(UserMapper::UserToDtoWithRole).toList();
     }
 }
