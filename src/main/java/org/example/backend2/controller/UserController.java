@@ -45,16 +45,6 @@ public class UserController {
         return "register";
     }
 
-    //Kierans metod
-    /*
-    @GetMapping("/assign-role")
-    public String showAssignRole(Model model) {
-     //   model.addAttribute("roleUpdate", new RoleUpdate());
-        return "assign-role";
-    }*/
-
-
-
 
     //TODO: NU LIGGER ALLT PÅ PERMIT ALL. ANNARS KAN VI INTE TESTA
     ///all-users","/all/{id}/delete","/all/{id}/role").permitAll()
@@ -78,18 +68,6 @@ public class UserController {
         return "redirect:/all";
     }
 
-    /*
-    // UPDATE ROLES
-
-    @PostMapping("/all/{id}/role")
-    public String updateRole(@PathVariable Long id,  @RequestParam String role, RedirectAttributes redirectAttributes) {
-        try {
-            userService.updateRolesMetod(id, role);
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Failed to update customer #" + id + ": " + e.getMessage());
-        }
-        return "redirect:/all";
-    }*/
 
     @PostMapping("/all/{username}/role/add")
     public String assignRole(@PathVariable String username,  @RequestParam String role, RedirectAttributes redirectAttributes) {

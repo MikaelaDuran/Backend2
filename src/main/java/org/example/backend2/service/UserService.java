@@ -36,6 +36,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void removeRoleFromUser(String username, String roleName) {
         AppUser user = findUser(username);
         Role role = findRole(roleName);
@@ -104,27 +105,6 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    @Transactional
-    public void updateRolesMetod(Long id, String role) {
-        AppUser user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        user.getRoles().clear();
-
-        String newInput = role.replace(" ", "").toUpperCase();
-
-        if(newInput.contains("USER")) {
-            Role userRole = roleRepository.findByName("USER")
-                    .orElseThrow(() -> new RuntimeException("Role USER not found"));
-            user.getRoles().add(userRole);
-        }
-        if(newInput.contains("ADMIN")) {
-            Role adminRole = roleRepository.findByName("ADMIN")
-                    .orElseThrow(() -> new RuntimeException("Role ADMIN not found"));
-            user.getRoles().add(adminRole);
-        }
-        userRepository.save(user);
-    }
 
 
     public List<UserDTO> findAllUsersDTO() {
