@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.backend2.dto.RegistrationRequest;
 //import org.example.backend2.dto.RoleUpdate;
 import org.example.backend2.dto.UserDTO;
+import org.example.backend2.exeptions.CannotRemoveLastAdminException;
 import org.example.backend2.models.AppUser;
 import org.example.backend2.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -73,7 +74,11 @@ public class UserController {
     public String assignRole(@PathVariable String username,  @RequestParam String role, RedirectAttributes redirectAttributes) {
         try {
             userService.assignRoleToUser(username, role);
-            redirectAttributes.addFlashAttribute("message", "User " + username + " has been assigned role successfully");
+            redirectAttributes.addFlashAttribute("message", "User " + username + " has been assigned role successfully"
+                    +"If that was the user's last role, a default 'USER' role was assigned automatically."
+            );
+        } catch (CannotRemoveLastAdminException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Failed to assign role to user" + username+ ": " + e.getMessage());
         }

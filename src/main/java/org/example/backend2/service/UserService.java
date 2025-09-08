@@ -6,6 +6,7 @@ import org.example.backend2.dto.RegistrationRequest;
 import org.example.backend2.dto.UserDTO;
 import org.example.backend2.exceptions.RoleNotFoundException;
 import org.example.backend2.exceptions.UserNotFoundException;
+import org.example.backend2.exeptions.CannotRemoveLastAdminException;
 import org.example.backend2.mapper.UserMapper;
 import org.example.backend2.models.AppUser;
 import org.example.backend2.models.Role;
@@ -45,7 +46,7 @@ public class UserService {
         if("ADMIN".equalsIgnoreCase(role.getName())) {
             long adminCount = userRepository.countByRoles_Name("ADMIN");
             if(adminCount <= 1) {
-                throw new RuntimeException("Can not remove admin because its the last admin."
+                throw new CannotRemoveLastAdminException("Can not remove admin because its the last admin."
                 );
             }
 
