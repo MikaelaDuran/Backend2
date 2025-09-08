@@ -1,7 +1,6 @@
 package org.example.backend2.service;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.example.backend2.dto.OrderDTO;
 import org.example.backend2.dto.OrderRequest;
 import org.example.backend2.dto.ProductDTO;
