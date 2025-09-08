@@ -74,11 +74,7 @@ public class UserController {
     public String assignRole(@PathVariable String username,  @RequestParam String role, RedirectAttributes redirectAttributes) {
         try {
             userService.assignRoleToUser(username, role);
-            redirectAttributes.addFlashAttribute("message", "User " + username + " has been assigned role successfully"
-                    +"If that was the user's last role, a default 'USER' role was assigned automatically."
-            );
-        } catch (CannotRemoveLastAdminException e) {
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            redirectAttributes.addFlashAttribute("message", "User " + username + " has been assigned role successfully");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Failed to assign role to user" + username+ ": " + e.getMessage());
         }
@@ -89,7 +85,10 @@ public class UserController {
     public String removeRoleFromUser(@PathVariable String username,  @RequestParam String role, RedirectAttributes redirectAttributes) {
         try {
             userService.removeRoleFromUser(username, role);
-            redirectAttributes.addFlashAttribute("message", "The role " + role + " has been removed from " + username +" successfully");
+            redirectAttributes.addFlashAttribute("message", "The role " + role + " has been removed from " + username +" successfully!"
+                    +" If that was the user's last role, a default 'USER' role was assigned automatically.");
+        } catch (CannotRemoveLastAdminException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Failed to remove role from user " + username + ": " + e.getMessage());
         }
