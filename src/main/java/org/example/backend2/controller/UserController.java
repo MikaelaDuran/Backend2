@@ -61,9 +61,9 @@ public class UserController {
     public String deleteAppUser(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try{
             userService.deleteUser(id);
-            redirectAttributes.addFlashAttribute("message", "Customer #" + id + " deleted successfully");
+            redirectAttributes.addFlashAttribute("message", "User " + id + " deleted successfully");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Failed to delete customer #" + id + ": " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Failed to delete user" + id + ": " + e.getMessage());
         }
         return "redirect:/all";
     }
@@ -73,9 +73,9 @@ public class UserController {
     public String assignRole(@PathVariable String username,  @RequestParam String role, RedirectAttributes redirectAttributes) {
         try {
             userService.assignRoleToUser(username, role);
-            redirectAttributes.addFlashAttribute("message", "Customer #" + username + " has been assigned successfully");
+            redirectAttributes.addFlashAttribute("message", "User " + username + " has been assigned successfully");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Failed to assign role to customer #" + username+ ": " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Failed to assign role to user" + username+ ": " + e.getMessage());
         }
         return "redirect:/all";
     }
@@ -84,9 +84,9 @@ public class UserController {
     public String removeRoleFromUser(@PathVariable String username,  @RequestParam String role, RedirectAttributes redirectAttributes) {
         try {
             userService.removeRoleFromUser(username, role);
-            redirectAttributes.addFlashAttribute("message", "Customer #" + username + " has been removed successfully");
+            redirectAttributes.addFlashAttribute("message", "User " + username + " has been removed successfully");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Failed to remove role from customer #" + username + ": " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Failed to remove role from user " + username + ": " + e.getMessage());
         }
         return "redirect:/all";
     }
