@@ -16,12 +16,14 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping("/products/{category}")
+    @GetMapping("/products/category/{category}")
     public String getProductsByCategory(@PathVariable String category, Model model) {
         List<Product> products = productService.getProductsByCategory(category);
-        model.addAttribute(products);
-        return "";
+        model.addAttribute("products",products);
+        return "products";
     }
+
+
     
     @GetMapping("/products/{id}")
     public String getProductById(@PathVariable long id, Model model)
@@ -31,13 +33,20 @@ public class ProductController {
         return "";
     }
 
-    @GetMapping("/products/all")
+ @GetMapping("/products/all")
     public String getAllProducts( Model model)
     {
         List<Product> products = productService.getAllProducts();
-        model.addAttribute(products);
-        return "";
+        model.addAttribute("products",products);
+        return "products";
     }
-    
-    
+
+    //For loading page
+    @GetMapping("/")
+    public String loadIndexProducts(Model model) {
+        List<Product> products = productService.getAllProducts();
+        model.addAttribute("products", products); // give Thymeleaf a variable called "products"
+        return "index";
+    }
+
 }

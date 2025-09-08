@@ -65,7 +65,7 @@ box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
 .modal {
 width: 100%;
 max-width: 600px;
-background-color: rgba(255, 255, 255, 0.95);
+background-color: rgba(255, 255, 255, 0.30);
 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 text-align: center;
 padding: 20px;
