@@ -84,7 +84,7 @@ public class UserController {
     public String removeRoleFromUser(@PathVariable String username,  @RequestParam String role, RedirectAttributes redirectAttributes) {
         try {
             userService.removeRoleFromUser(username, role);
-            redirectAttributes.addFlashAttribute("message", "User " + username + " has been removed successfully");
+            redirectAttributes.addFlashAttribute("message", "The role " + role + " has been removed from " + username +" successfully");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Failed to remove role from user " + username + ": " + e.getMessage());
         }
