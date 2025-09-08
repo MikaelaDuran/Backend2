@@ -1,3 +1,17 @@
+html, body {
+  height: 100%; /* make body span full viewport */
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* ensures full height layout */
+}
+
+main {
+  flex: 1; /* expands to push footer down */
+}
+
 .header-banner {
   background-color: #ffffff; 
   color: #000; 
