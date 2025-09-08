@@ -75,6 +75,7 @@ public class OrderService {
 
     public List<OrderDTO> getAllOrders() {
         List<ProductOrder> orders = orderRepository.findAll();
+        
         return OrderMapper.multipleToDTO(orders);
     }
 }

@@ -36,7 +36,7 @@ public class OrderController {
     @GetMapping("/orders")
     public String showOrders(Model model) {
         List<OrderDTO> orders = orderService.getAllOrders();
-        model.addAttribute(orders);
+        model.addAttribute("orders", orders);
         return "adminOrderList";
     }
     

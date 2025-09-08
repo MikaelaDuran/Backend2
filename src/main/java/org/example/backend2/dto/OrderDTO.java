@@ -1,7 +1,6 @@
 package org.example.backend2.dto;
 
 import lombok.*;
-import org.example.backend2.models.OrderItem;
 
 import java.time.Instant;
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.List;
 public class OrderDTO {
     private long orderId;
     private UserDTO user;
-    private List<OrderItem> orderItems;
+    private List<OrderItemDTO> orderItems;
     private Instant createdAt;
     private Instant lastUpdatedAt;
 }
