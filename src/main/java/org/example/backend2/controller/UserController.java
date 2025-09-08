@@ -1,6 +1,7 @@
 package org.example.backend2.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.backend2.dto.LoginRequest;
 import org.example.backend2.dto.RegistrationRequest;
 //import org.example.backend2.dto.RoleUpdate;
 import org.example.backend2.dto.UserDTO;
@@ -20,10 +21,20 @@ public class UserController {
 
     private final UserService userService;
 
-   // @GetMapping("/login")
-  //  public String showLogin() {
-   //     return "login";
-    //}
+    @GetMapping("/login")
+    public String showLogin(Model model) {
+        model.addAttribute("loginRequest", new LoginRequest());
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String authenticateUser(LoginRequest loginRequest) {
+        if (userService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword())) {
+            return "redirect:/index";
+        } else {
+            return "/login";
+        }
+    }
 
     @PostMapping("/register")
     public String userRegistration(RegistrationRequest registrationRequest) {
@@ -35,17 +46,13 @@ public class UserController {
         }
     }
 
-    public String authenticateUser(String username, String password) {
-        return userService.authenticateUser(username, password);
-    }
-
     @GetMapping("/register")
     public String showRegister(Model model) {
         model.addAttribute("registrationRequest", new RegistrationRequest());
         return "register";
     }
 
-    //Kierans metod
+//Kierans metod
     /*
     @GetMapping("/assign-role")
     public String showAssignRole(Model model) {
@@ -53,11 +60,10 @@ public class UserController {
         return "assign-role";
     }*/
 
+//TODO: NU LIGGER ALLT PÅ PERMIT ALL. ANNARS KAN VI INTE TESTA
 
-
-    //TODO: NU LIGGER ALLT PÅ PERMIT ALL. ANNARS KAN VI INTE TESTA
-    ///all-users","/all/{id}/delete","/all/{id}/role").permitAll()
-    //Hämta alla användarna till user-role.html vyn
+    /// all-users","/all/{id}/delete","/all/{id}/role").permitAll()
+//Hämta alla användarna till user-role.html vyn
     @GetMapping("/all")
     public String allUsers(Model model) {
         List<UserDTO> appUsers = userService.findAllUsersDTO(); // hämta DTO:et
@@ -68,7 +74,7 @@ public class UserController {
     //Delete user från vyn user-role.html
     @PostMapping("/all/{id}/delete")
     public String deleteAppUser(@PathVariable Long id, RedirectAttributes redirectAttributes, Model model) {
-        try{
+        try {
             userService.deleteUser(id);
             redirectAttributes.addFlashAttribute("message", "Customer #" + id + " deleted successfully");
         } catch (Exception e) {
@@ -77,10 +83,10 @@ public class UserController {
         return "redirect:/all";
     }
 
-    // UPDATE ROLES
+// UPDATE ROLES
 
     @PostMapping("/all/{id}/role")
-    public String updateRole(@PathVariable Long id,  @RequestParam String role, RedirectAttributes redirectAttributes) {
+    public String updateRole(@PathVariable Long id, @RequestParam String role, RedirectAttributes redirectAttributes) {
         try {
             userService.updateRolesMetod(id, role);
         } catch (Exception e) {
@@ -88,6 +94,4 @@ public class UserController {
         }
         return "redirect:/all";
     }
-
-
 }

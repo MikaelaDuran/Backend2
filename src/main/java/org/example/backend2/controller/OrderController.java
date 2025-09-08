@@ -17,19 +17,19 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @GetMapping("/checkout")
+    @GetMapping("/order-form")
     public String showCheckout(Model model) {
         model.addAttribute("orderRequest", new OrderRequest());
-        return "checkout";
+        return "order-form";
     }
 
-    @PostMapping("/checkout")
+    @PostMapping("/order-form")
     public String completeCheckout(OrderRequest orderRequest) {
         boolean success = orderService.completeOrder(orderRequest);
         if (success) {
             return "redirect:/receipt";
         } else {
-            return "checkout";
+            return "order-form";
         }
     }
     
@@ -37,7 +37,7 @@ public class OrderController {
     public String showOrders(Model model) {
         List<OrderDTO> orders = orderService.getAllOrders();
         model.addAttribute(orders);
-        return "orders";
+        return "adminOrderList";
     }
     
 }
