@@ -41,6 +41,16 @@ public class UserService {
         AppUser user = findUser(username);
         Role role = findRole(roleName);
 
+        //If trying to remove admin role
+        if("ADMIN".equalsIgnoreCase(role.getName())) {
+            long adminCount = userRepository.countByRoles_Name("ADMIN");
+            if(adminCount <= 1) {
+                throw new RuntimeException("Can not remove admin because its the last admin."
+                );
+            }
+
+        }
+
         if (user.getRoles().remove(role)) {
             userRepository.save(user);
         }
@@ -102,6 +112,16 @@ public class UserService {
     public void deleteUser(Long id) {
         AppUser user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
+        //Control if its last admin
+        boolean isUserAdmin = user.getRoles().stream()
+                .anyMatch(r -> "ADMIN".equalsIgnoreCase(r.getName()));
+        if (isUserAdmin) {
+            long adminCount = userRepository.countByRoles_Name("ADMIN");
+            if(adminCount <= 1) {
+                throw new RuntimeException("Can not remove admin because its the last admin.");
+            }
+        }
+
         userRepository.delete(user);
     }
 

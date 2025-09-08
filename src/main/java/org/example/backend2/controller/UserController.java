@@ -58,7 +58,7 @@ public class UserController {
 
     //Delete user från vyn user-role.html
     @PostMapping("/all/{id}/delete")
-    public String deleteAppUser(@PathVariable Long id, RedirectAttributes redirectAttributes, Model model) {
+    public String deleteAppUser(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try{
             userService.deleteUser(id);
             redirectAttributes.addFlashAttribute("message", "Customer #" + id + " deleted successfully");
@@ -73,6 +73,7 @@ public class UserController {
     public String assignRole(@PathVariable String username,  @RequestParam String role, RedirectAttributes redirectAttributes) {
         try {
             userService.assignRoleToUser(username, role);
+            redirectAttributes.addFlashAttribute("message", "Customer #" + username + " has been assigned successfully");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Failed to assign role to customer #" + username+ ": " + e.getMessage());
         }
@@ -83,6 +84,7 @@ public class UserController {
     public String removeRoleFromUser(@PathVariable String username,  @RequestParam String role, RedirectAttributes redirectAttributes) {
         try {
             userService.removeRoleFromUser(username, role);
+            redirectAttributes.addFlashAttribute("message", "Customer #" + username + " has been removed successfully");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Failed to remove role from customer #" + username + ": " + e.getMessage());
         }
