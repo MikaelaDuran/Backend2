@@ -1,5 +1,6 @@
 package org.example.backend2.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.backend2.dto.RegistrationRequest;
 import org.example.backend2.exceptions.RoleNotFoundException;
@@ -91,5 +92,27 @@ public class UserService {
         AppUser user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
         userRepository.delete(user);
+    }
+
+    @Transactional
+    public void updateRolesMetod(Long id, String role) {
+        AppUser user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.getRoles().clear();
+
+        String newInput = role.replace(" ", "").toUpperCase();
+
+        if(newInput.contains("USER")) {
+            Role userRole = roleRepository.findByName("USER")
+                    .orElseThrow(() -> new RuntimeException("Role USER not found"));
+            user.getRoles().add(userRole);
+        }
+        if(newInput.contains("ADMIN")) {
+            Role adminRole = roleRepository.findByName("ADMIN")
+                    .orElseThrow(() -> new RuntimeException("Role ADMIN not found"));
+            user.getRoles().add(adminRole);
+        }
+        userRepository.save(user);
     }
 }
