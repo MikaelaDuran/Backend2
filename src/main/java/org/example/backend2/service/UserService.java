@@ -43,6 +43,13 @@ public class UserService {
         if (user.getRoles().remove(role)) {
             userRepository.save(user);
         }
+
+        if(user.getRoles().isEmpty()) {
+            Role defaultRole = roleRepository.findByName("USER")
+                    .orElseThrow(() -> new RoleNotFoundException("Role not found: USER"));
+            user.getRoles().add(defaultRole);
+            userRepository.save(user);
+        }
     }
 
 
