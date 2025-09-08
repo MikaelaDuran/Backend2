@@ -61,9 +61,9 @@ public class UserController {
     public String deleteAppUser(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try{
             userService.deleteUser(id);
-            redirectAttributes.addFlashAttribute("message", "User " + id + " deleted successfully");
+            redirectAttributes.addFlashAttribute("message", "User #" + id + " has been deleted successfully");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Failed to delete user" + id + ": " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Failed to delete user #" + id + ": " + e.getMessage());
         }
         return "redirect:/all";
     }
@@ -73,7 +73,7 @@ public class UserController {
     public String assignRole(@PathVariable String username,  @RequestParam String role, RedirectAttributes redirectAttributes) {
         try {
             userService.assignRoleToUser(username, role);
-            redirectAttributes.addFlashAttribute("message", "User " + username + " has been assigned successfully");
+            redirectAttributes.addFlashAttribute("message", "User " + username + " has been assigned role successfully");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Failed to assign role to user" + username+ ": " + e.getMessage());
         }
