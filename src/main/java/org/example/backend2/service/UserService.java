@@ -2,8 +2,8 @@ package org.example.backend2.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.backend2.dto.RegistrationRequest;
-import org.example.backend2.dto.UserDTO;
-import org.example.backend2.mapper.UserMapper;
+import org.example.backend2.exceptions.RoleNotFoundException;
+import org.example.backend2.exceptions.UserNotFoundException;
 import org.example.backend2.models.AppUser;
 import org.example.backend2.models.Role;
 import org.example.backend2.repository.RoleRepository;
@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -45,12 +44,12 @@ public class UserService {
 
     private AppUser findUser(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
     private Role findRole(String roleName) {
         return roleRepository.findByName(roleName)
-                .orElseThrow(() -> new RuntimeException("Role not found"));
+                .orElseThrow(() -> new RoleNotFoundException("Role not found"));
     }
 
     // register new user.
@@ -63,8 +62,8 @@ public class UserService {
         AppUser user = AppUser.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .roles(Set.of(role)) //initiate set of roles otherwise getRoles() return null
                 .build();
+        user.getRoles().add(role);
 
         try {
             userRepository.save(user);
@@ -84,13 +83,13 @@ public class UserService {
         return "Login successful";
     }
 
-    public List<UserDTO> findAllUsersDTO() {
-        return userRepository.findAll().stream().map(UserMapper::appUserToDto).toList();
+    public List<AppUser> findAllUsers() {
+        return userRepository.findAll();
     }
 
     public void deleteUser(Long id) {
         AppUser user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         userRepository.delete(user);
     }
 }

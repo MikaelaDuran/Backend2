@@ -11,7 +11,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,7 +25,7 @@ public class LoadProductIT {
 
     @Test
     public void loadProduct() throws IOException {
-        Product[] products = fakeStoreProductSyncService.syncProductsFromApi();
+        Product[] products = fakeStoreProductSyncService.getProductsFromApi();
 
         assertNotNull(products);
         assertNotEquals(0, products.length);

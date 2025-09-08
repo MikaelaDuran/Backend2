@@ -9,8 +9,7 @@ import lombok.Setter;
 @Entity
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long id;
+    public Long id; 
     public String title;
     public double price;
     @Column(length = 1000)
