@@ -86,14 +86,14 @@
     </thead>
     <tbody>
     <tr th:each="appUser : ${appUsers}">
-        <td th:text="${appUser.id}">1</td>
+        <td th:text="${appUser.userId}">1</td>
         <td th:text="${appUser.username}">Username</td>
         <!-- Nuvarande roller -->
         <td th:text="${#strings.listJoin(appUser.roles, ', ')}">USER, ADMIN</td>
 
         <!-- Uppdatera roller via rullista -->
         <td>
-            <form th:action="@{|/all/${appUser.id}/role|}" method="post" class="row g-2">
+            <form th:action="@{|/all/${appUser.userId}/role|}" method="post" class="row g-2">
 
                 <!-- Tre alternativ -->
                 <div class="col-8">
@@ -122,7 +122,7 @@
             </form>
         </td>
         <td>
-            <form th:action="@{|/all/${appUser.id}/delete|}" method="post">
+            <form th:action="@{|/all/${appUser.userId}/delete|}" method="post">
                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
             </form>
         </td>

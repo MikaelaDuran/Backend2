@@ -20,10 +20,10 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/login")
-    public String showLogin() {
-        return "login";
-    }
+   // @GetMapping("/login")
+  //  public String showLogin() {
+   //     return "login";
+    //}
 
     @PostMapping("/register")
     public String userRegistration(RegistrationRequest registrationRequest) {
