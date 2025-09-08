@@ -24,9 +24,9 @@ public class SecurityConfig {
                 .requestMatchers("/","/login", "/register",
                         "/css/**","/images/**","/js/**",
                         "/AboutUs.html", "/order-confirmation.html", "/order-form.html", "/products.html",
-                        "/all","/all/{id}/delete","/all/{id}/role", "/products","/products/**" ).permitAll()
+                         "/products","/products/**" ).permitAll()
                 .requestMatchers("/user").hasRole("USER")
-                .requestMatchers("/admin").hasRole("ADMIN")
+                .requestMatchers("/admin"+ "/all","/all/{id}/delete","/all/{id}/role","/orders").hasRole("ADMIN")
                 .anyRequest().authenticated()
         );
 
