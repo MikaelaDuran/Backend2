@@ -55,6 +55,7 @@ public class UserController {
 
 
 
+
     //TODO: NU LIGGER ALLT PÅ PERMIT ALL. ANNARS KAN VI INTE TESTA
     ///all-users","/all/{id}/delete","/all/{id}/role").permitAll()
     //Hämta alla användarna till user-role.html vyn
@@ -77,6 +78,7 @@ public class UserController {
         return "redirect:/all";
     }
 
+    /*
     // UPDATE ROLES
 
     @PostMapping("/all/{id}/role")
@@ -87,7 +89,25 @@ public class UserController {
             redirectAttributes.addFlashAttribute("error", "Failed to update customer #" + id + ": " + e.getMessage());
         }
         return "redirect:/all";
+    }*/
+
+    @PostMapping("/all/{username}/role/add")
+    public String assignRole(@PathVariable String username,  @RequestParam String role, RedirectAttributes redirectAttributes) {
+        try {
+            userService.assignRoleToUser(username, role);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to assign role to customer #" + username+ ": " + e.getMessage());
+        }
+        return "redirect:/all";
     }
 
-
+    @PostMapping("/all/{username}/role/remove")
+    public String removeRoleFromUser(@PathVariable String username,  @RequestParam String role, RedirectAttributes redirectAttributes) {
+        try {
+            userService.removeRoleFromUser(username, role);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to remove role from customer #" + username + ": " + e.getMessage());
+        }
+        return "redirect:/all";
+    }
 }

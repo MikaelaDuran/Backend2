@@ -45,6 +45,7 @@ public class UserService {
         }
     }
 
+
     private AppUser findUser(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));

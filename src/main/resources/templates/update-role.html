@@ -71,7 +71,7 @@
 
 
 
-<!-- ORDERS -->
+<!-- UPDATE USER-->
 <div class="container py-4 flex-grow-1">
 <h2 class="mb-4">Update roles</h2>
 <table class="table table-striped">
@@ -93,36 +93,31 @@
 
         <!-- Uppdatera roller via rullista -->
         <td>
-            <form th:action="@{|/all/${appUser.userId}/role|}" method="post" class="row g-2">
+            <form th:action="@{/all/{username}/role/add(username=${appUser.username})}" method="post" class="row g-2">
 
-                <!-- Tre alternativ -->
-                <div class="col-8">
+                <!-- Två alternativ -->
+                <div class="col-4">
                     <select name="role" class="form-select form-select-sm">
                         <!-- Tolka användarens nuvarande roller som sammanslagen sträng -->
-                        <option value="USER"
-                                th:selected="${#strings.listJoin(appUser.roles, ', ') == 'USER'}">
-                            USER
-                        </option>
-                        <option value="ADMIN"
-                                th:selected="${#strings.listJoin(appUser.roles, ', ') == 'ADMIN'}">
-                            ADMIN
-                        </option>
-                        <!-- 'USER, ADMIN' -->
-                        <option value="USER,ADMIN"
-                                th:selected="${#strings.listJoin(appUser.roles, ', ') == 'USER, ADMIN'}">
-                            USER + ADMIN
-                        </option>
+                        <option value="USER"  th:selected="${#lists.contains(appUser.roles, 'USER')}">USER</option>
+                        <option value="ADMIN" th:selected="${#lists.contains(appUser.roles, 'ADMIN')}">ADMIN</option>
                     </select>
                 </div>
-                <div class="col-4 d-grid">
+                <div class="col-2 d-grid">
                     <button type="submit" class="btn btn-sm btn-success">
-                        Save
+                        Assign
+                    </button>
+                </div>
+                <div class="col-2 d-grid">
+                    <button type="submit" class="btn btn-sm btn-danger"
+                            th:formaction="@{/all/{username}/role/remove(username=${appUser.username})}">
+                        Remove
                     </button>
                 </div>
             </form>
         </td>
         <td>
-            <form th:action="@{|/all/${appUser.userId}/delete|}" method="post">
+            <form th:action="@{|/all/${appUser.username}/delete|}" method="post">
                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
             </form>
         </td>
@@ -131,7 +126,7 @@
 </table>
 </div>
 
-<!-- ORDERS END -->
+<!-- END -->
 
 <!--footer-->
 <footer class="bg-light text-center text-white">
