@@ -16,7 +16,6 @@ import java.util.Optional;
 @SpringBootApplication
 public class Backend2Application implements CommandLineRunner {
 
-    //TODO : För att testa skriva ut produkterna i konsolen
     //TEMP to send branch
 
     private final FakeStoreProductSyncService fakeStoreProductSyncService;
@@ -37,30 +36,40 @@ public class Backend2Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        ensureRolesExist();
-        ensureAdminExists();
-        
-        Product[] products = fakeStoreProductSyncService.getProductsFromApi();
-        fakeStoreProductSyncService.syncProducts(products);
-    }
-
-    private void ensureRolesExist() {
         if (!roleRepository.existsRoleByName("USER")) {
             roleRepository.save(new Role("USER"));
-        }
-        if (!roleRepository.existsRoleByName("ADMIN")) {
             roleRepository.save(new Role("ADMIN"));
         }
-    }
 
-    private void ensureAdminExists() {
         if (!userRepository.existsByUsername("Hani")) {
             Role role = roleRepository.findByName("ADMIN")
                     .orElseThrow(() -> new RuntimeException("Role not found"));
+
 
             AppUser user = new AppUser("Hani", passwordEncoder.encode("Hyoju"));
             user.getRoles().add(role);
             userRepository.save(user);
         }
+
+        if (!userRepository.existsByUsername("TEST")) {
+            Role role = roleRepository.findByName("USER")
+                    .orElseThrow(() -> new RuntimeException("Role not found"));
+
+
+            AppUser user = new AppUser("TEST", passwordEncoder.encode("TEST"));
+            user.getRoles().add(role);
+            userRepository.save(user);
+        }
+
+        if (!userRepository.existsByUsername("TestADMIN")) {
+            Role role = roleRepository.findByName("ADMIN")
+                    .orElseThrow(() -> new RuntimeException("Role not found"));
+
+
+            AppUser user = new AppUser("TestADMIN", passwordEncoder.encode("TestADMIN"));
+            user.getRoles().add(role);
+            userRepository.save(user);
+        }
+
     }
 }
