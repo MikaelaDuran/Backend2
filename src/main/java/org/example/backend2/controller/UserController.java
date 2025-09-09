@@ -3,7 +3,6 @@ package org.example.backend2.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.backend2.dto.LoginRequest;
 import org.example.backend2.dto.RegistrationRequest;
-//import org.example.backend2.dto.RoleUpdate;
 import org.example.backend2.dto.UserDTO;
 import org.example.backend2.exceptions.CannotRemoveLastAdminException;
 import org.example.backend2.service.UserService;
