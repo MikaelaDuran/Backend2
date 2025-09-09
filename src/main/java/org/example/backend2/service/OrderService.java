@@ -14,6 +14,8 @@ import org.example.backend2.models.ProductOrder;
 import org.example.backend2.repository.OrderRepository;
 import org.example.backend2.repository.ProductRepository;
 import org.example.backend2.repository.UserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,12 +29,14 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     @Transactional
-    public boolean completeOrder(OrderRequest orderRequest, String userName) {
+    public boolean completeOrder(OrderRequest orderRequest) {
         try {
             if (orderRequest.getProducts() == null || orderRequest.getProducts().isEmpty()) {
                 throw new IllegalArgumentException("Order must contain at least one product");
             }
 
+            String userName = getCurrentUsername();
+            
             AppUser user = userRepository.findByUsername(userName)
                     .orElseThrow(() -> new UserNotFoundException("User not found: " + userName));
 
@@ -63,6 +67,14 @@ public class OrderService {
             throw e; 
         }
     }
+
+    private String getCurrentUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            return authentication.getName();
+        }
+        return null;
+    }
     
     
     public List<OrderDTO> getOrdersByUsername(String username) {
@@ -77,5 +89,9 @@ public class OrderService {
         List<ProductOrder> orders = orderRepository.findAll();
         
         return OrderMapper.multipleToDTO(orders);
+    }
+
+    public void deleteById(long id) {
+        orderRepository.deleteById(id);
     }
 }
