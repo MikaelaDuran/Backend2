@@ -6,7 +6,7 @@ import org.example.backend2.dto.RegistrationRequest;
 import org.example.backend2.dto.UserDTO;
 import org.example.backend2.exceptions.RoleNotFoundException;
 import org.example.backend2.exceptions.UserNotFoundException;
-import org.example.backend2.exeptions.CannotRemoveLastAdminException;
+import org.example.backend2.exceptions.CannotRemoveLastAdminException;
 import org.example.backend2.mapper.UserMapper;
 import org.example.backend2.models.AppUser;
 import org.example.backend2.models.Role;
