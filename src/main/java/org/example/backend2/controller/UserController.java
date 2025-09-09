@@ -46,9 +46,6 @@ public class UserController {
         }
     }
 
-    public String authenticateUser(String username, String password) {
-        return userService.authenticateUser(username, password);
-    }
 
     @GetMapping("/register")
     public String showRegister(Model model) {
