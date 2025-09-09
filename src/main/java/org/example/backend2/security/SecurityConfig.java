@@ -42,7 +42,15 @@ public class SecurityConfig {
         );
 
         http.logout((auth) -> auth.logoutUrl("/logout")
-                .logoutSuccessUrl("/"));
+                .logoutSuccessUrl("/")
+        );
+
+        http.exceptionHandling(exception -> exception
+                        .accessDeniedHandler((request,
+                                              response,
+                                              accessDeniedException) ->
+                                response.sendRedirect("/"))  // redirect istället för 403
+                );
 
         return http.build();
     }
