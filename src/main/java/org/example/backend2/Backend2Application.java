@@ -6,6 +6,7 @@ import org.example.backend2.models.Role;
 import org.example.backend2.repository.RoleRepository;
 import org.example.backend2.repository.UserRepository;
 import org.example.backend2.service.FakeStoreProductSyncService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,6 +24,8 @@ public class Backend2Application implements CommandLineRunner {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    @Value("${adminpassword}")
+    private String password;
 
     public Backend2Application(FakeStoreProductSyncService fakeStoreProductSyncService, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.fakeStoreProductSyncService = fakeStoreProductSyncService;
@@ -58,7 +61,7 @@ public class Backend2Application implements CommandLineRunner {
             Role role = roleRepository.findByName("ADMIN")
                     .orElseThrow(() -> new RuntimeException("Role not found"));
 
-            AppUser user = new AppUser("Hani", passwordEncoder.encode("Hyoju"));
+            AppUser user = new AppUser("Hani", passwordEncoder.encode(password));
             user.getRoles().add(role);
             userRepository.save(user);
         }
