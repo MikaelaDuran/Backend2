@@ -24,11 +24,16 @@ public class SecurityConfig {
                 .requestMatchers("/","/login", "/register",
                         "/css/**","/images/**","/js/**",
                         "/AboutUs.html",
-                        "/order-confirmation.html", "/order-form.html",
                         "/products.html","/products","/products/**").permitAll()
-                .requestMatchers("/user").hasRole("USER")
-                .requestMatchers("/admin", "/all","/all/{id}/delete",
-                        "/all/{id}/role","/all/*/role/add","/all/*/role/remove").hasRole("ADMIN")
+
+                .requestMatchers("/user",
+                        "/order-confirmation.html", "/order-form.html").hasAuthority("USER")
+
+                .requestMatchers("/admin",
+                        "/all","/all/{id}/delete",
+                        "/all/*/role/add","/all/*/role/remove",
+                        "/orders").hasAuthority("ADMIN")
+
                 .anyRequest().authenticated()
         );
 
