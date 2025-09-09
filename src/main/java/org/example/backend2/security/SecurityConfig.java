@@ -23,11 +23,12 @@ public class SecurityConfig {
         http.authorizeHttpRequests((auth) -> auth
                 .requestMatchers("/","/login", "/register",
                         "/css/**","/images/**","/js/**",
-                        "/AboutUs.html", "/order-confirmation.html", "/order-form.html", "/products.html",
-                        "/all","/all/{id}/delete","/all/{id}/role","/all/*/role/add","/all/*/role/remove",
-                        "/products","/products/**").permitAll()
+                        "/AboutUs.html",
+                        "/order-confirmation.html", "/order-form.html",
+                        "/products.html","/products","/products/**").permitAll()
                 .requestMatchers("/user").hasRole("USER")
-                .requestMatchers("/admin").hasRole("ADMIN")
+                .requestMatchers("/admin", "/all","/all/{id}/delete",
+                        "/all/{id}/role","/all/*/role/add","/all/*/role/remove").hasRole("ADMIN")
                 .anyRequest().authenticated()
         );
 
