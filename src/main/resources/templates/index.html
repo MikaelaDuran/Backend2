@@ -54,8 +54,8 @@
                 </ul>
               </li>
 
-              <!--ADMIN BUTTON NOT WORKING YET -->
-                <li sec:authorize="hasRole('ADMIN')" class ="nav-item dropdown">
+              <!--ADMIN BUTTON-->
+              <li sec:authorize="hasAuthority('ADMIN')" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Admin Pages</a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="/orders">Orders</a></li>
@@ -170,35 +170,32 @@
             </div>
           </div>
 
-          <!-- Product Details Modal -->
-          <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="productModalLabel">Product Title</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <!-- Product Details Modal -->
+        <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel">Product Title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body d-flex">
+                <div class="me-3" style="flex: 0 0 40%;">
+                  <img id="modalImage" src="" alt="Product Image" class="img-fluid rounded">
                 </div>
-                <div class="modal-body d-flex">
-                  <div class="me-3" style="flex: 0 0 40%;">
-                    <img id="modalImage" src="" alt="Product Image" class="img-fluid rounded">
-                  </div>
-                  <div style="flex: 1;">
-                    <p id="modalDescription"></p>
-                    <p class="fw-bold" id="modalPrice"></p>
-                    <form th:action="@{/cart/add}" method="post">
-                      <input type="hidden" name="productId" id="modalProductId"/>
-                      <button type="submit" class="btn btn-success w-100">Add to Cart</button>
-                    </form>
-                  </div>
+                <div style="flex: 1;">
+                  <p id="modalDescription"></p>
+                  <p class="fw-bold" id="modalPrice"></p>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
 
 
 
-  <!-- Sidebar -->
+
+        <!-- Sidebar -->
   <div style="display: none;" id="cartSideBarID" class="col-md-3 bg-light sidebar p-3">
     <h4>Cart</h4>
     <div id="cartItemsContainer"></div>
@@ -231,24 +228,29 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script><script src="../js/loginLogic.js"></script>
     <script src="/js/Cart.js"></script>
           <script>
-            document.addEventListener("DOMContentLoaded", function () {
-              const modal = document.getElementById("productModal");
-              const modalTitle = document.getElementById("productModalLabel");
-              const modalImage = document.getElementById("modalImage");
-              const modalDescription = document.getElementById("modalDescription");
-              const modalPrice = document.getElementById("modalPrice");
-              const modalProductId = document.getElementById("modalProductId");
 
-              modal.addEventListener("show.bs.modal", function (event) {
-                const trigger = event.relatedTarget; // the clicked element (img)
+            //For Modal
+            document.addEventListener("DOMContentLoaded", () => {
+              const productModal = document.getElementById("productModal");
 
-                modalTitle.textContent = trigger.getAttribute("data-title");
-                modalImage.src = trigger.getAttribute("data-image");
-                modalDescription.textContent = trigger.getAttribute("data-description");
-                modalPrice.textContent = "$" + trigger.getAttribute("data-price");
-                modalProductId.value = trigger.getAttribute("data-id");
+              productModal.addEventListener("show.bs.modal", event => {
+                const trigger = event.relatedTarget; // the <img> that opened the modal
+
+                // Extract data attributes
+                const title = trigger.getAttribute("data-title");
+                const description = trigger.getAttribute("data-description");
+                const price = trigger.getAttribute("data-price");
+                const image = trigger.getAttribute("data-image");
+
+                // Update modal content
+                document.getElementById("productModalLabel").textContent = title;
+                document.getElementById("modalDescription").textContent = description;
+                document.getElementById("modalPrice").textContent = "$" + price;
+                document.getElementById("modalImage").src = image;
               });
             });
+
+
             //Adding event listener for on click
             document.addEventListener('DOMContentLoaded', function() {
                 document.querySelectorAll('.add-to-cart-btn').forEach(button => {
