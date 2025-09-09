@@ -24,7 +24,8 @@ public class SecurityConfig {
                 .requestMatchers("/","/login", "/register",
                         "/css/**","/images/**","/js/**",
                         "/AboutUs.html", "/order-confirmation.html", "/order-form.html", "/products.html",
-                        "/all","/all/{id}/delete","/all/{id}/role","/all/*/role/add","/all/*/role/remove").permitAll()
+                        "/all","/all/{id}/delete","/all/{id}/role","/all/*/role/add","/all/*/role/remove",
+                        "/products","/products/**").permitAll()
                 .requestMatchers("/user").hasRole("USER")
                 .requestMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().authenticated()
@@ -34,6 +35,8 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/", true)
                 .permitAll()
         );
+
+
 
 //        http.logout((auth) -> auth.logoutUrl("/logout")
 //                .logoutSuccessUrl("/"));

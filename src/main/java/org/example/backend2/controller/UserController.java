@@ -1,6 +1,7 @@
 package org.example.backend2.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.backend2.dto.LoginRequest;
 import org.example.backend2.dto.RegistrationRequest;
 //import org.example.backend2.dto.RoleUpdate;
 import org.example.backend2.dto.UserDTO;
@@ -54,15 +55,6 @@ public class UserController {
         model.addAttribute("registrationRequest", new RegistrationRequest());
         return "register";
     }
-
-    //Kierans metod
-    /*
-    @GetMapping("/assign-role")
-    public String showAssignRole(Model model) {
-     //   model.addAttribute("roleUpdate", new RoleUpdate());
-        return "assign-role";
-    }*/
-
 
 
     //TODO: NU LIGGER ALLT PÅ PERMIT ALL. ANNARS KAN VI INTE TESTA
