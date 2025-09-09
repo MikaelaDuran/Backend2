@@ -1,8 +1,6 @@
 package org.example.backend2.mapper;
 
 import org.example.backend2.dto.OrderDTO;
-import org.example.backend2.dto.UserDTO;
-import org.example.backend2.models.AppUser;
 import org.example.backend2.models.ProductOrder;
 
 import java.util.List;
@@ -14,7 +12,7 @@ public class OrderMapper {
         return OrderDTO.builder()
                 .orderId(productOrder.getId())
                 .user(UserMapper.toDTO(productOrder.getAppUser()))
-                .orderItems(productOrder.getOrderItems())
+                .orderItems(OrderItemMapper.multipleToDTO(productOrder.getOrderItems()))
                 .createdAt(productOrder.getCreatedAt())
                 .lastUpdatedAt(productOrder.getLastUpdatedAt())
                 .build();

@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -85,8 +86,8 @@ public class UserService {
         AppUser user = AppUser.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .roles(Set.of(role))
                 .build();
-        user.getRoles().add(role);
 
         try {
             userRepository.save(user);
@@ -97,13 +98,13 @@ public class UserService {
     }
 
     // verify log in
-    public String authenticateUser(String username, String password) {
+    public boolean authenticateUser(String username, String password) {
         AppUser user = findUser(username);
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            return "Username or password is not correct";
+            return false;
         }
-        return "Login successful";
+        return true;
     }
 
     public List<AppUser> findAllUsers() {

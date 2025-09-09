@@ -20,10 +20,20 @@ public class UserController {
 
     private final UserService userService;
 
-   // @GetMapping("/login")
-  //  public String showLogin() {
-   //     return "login";
-    //}
+    @GetMapping("/login")
+    public String showLogin(Model model) {
+        model.addAttribute("loginRequest", new LoginRequest());
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String authenticateUser(LoginRequest loginRequest) {
+        if (userService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword())) {
+            return "redirect:/index";
+        } else {
+            return "/login";
+        }
+    }
 
     @PostMapping("/register")
     public String userRegistration(RegistrationRequest registrationRequest) {
@@ -44,6 +54,15 @@ public class UserController {
         model.addAttribute("registrationRequest", new RegistrationRequest());
         return "register";
     }
+
+    //Kierans metod
+    /*
+    @GetMapping("/assign-role")
+    public String showAssignRole(Model model) {
+     //   model.addAttribute("roleUpdate", new RoleUpdate());
+        return "assign-role";
+    }*/
+
 
 
     //TODO: NU LIGGER ALLT PÅ PERMIT ALL. ANNARS KAN VI INTE TESTA
@@ -68,6 +87,7 @@ public class UserController {
         return "redirect:/all";
     }
 
+    // UPDATE ROLES
 
     @PostMapping("/all/{username}/role/add")
     public String assignRole(@PathVariable String username,  @RequestParam String role, RedirectAttributes redirectAttributes) {
@@ -93,4 +113,6 @@ public class UserController {
         }
         return "redirect:/all";
     }
+
+
 }
