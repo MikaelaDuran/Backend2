@@ -27,14 +27,14 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     @Transactional
-    public boolean completeOrder(OrderRequest orderRequest) {
+    public boolean completeOrder(OrderRequest orderRequest, String userName) {
         try {
             if (orderRequest.getProducts() == null || orderRequest.getProducts().isEmpty()) {
                 throw new IllegalArgumentException("Order must contain at least one product");
             }
 
-            AppUser user = userRepository.findByUsername(orderRequest.getUsername())
-                    .orElseThrow(() -> new UserNotFoundException("User not found: " + orderRequest.getUsername()));
+            AppUser user = userRepository.findByUsername(userName)
+                    .orElseThrow(() -> new UserNotFoundException("User not found: " + userName));
 
             ProductOrder order = new ProductOrder();
             order.setAppUser(user);

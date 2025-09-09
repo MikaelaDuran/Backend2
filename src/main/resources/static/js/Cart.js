@@ -119,7 +119,7 @@ function payCart() {
   if (cartItems.length === 0) {
     alert("Your cart is empty!");
   } else {
-    location.href='order-form.html';
+    location.href='order-form';
   }
 }
 
@@ -178,3 +178,5 @@ function calculateTotalPrice() {
 
   return total.toFixed(2);
 }
+
+updateCartDisplay();

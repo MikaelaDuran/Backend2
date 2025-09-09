@@ -1,8 +1,7 @@
 package org.example.backend2.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
+import lombok.extern.jackson.Jacksonized;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +11,15 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Jacksonized
 public class OrderRequest {
-    @NotEmpty(message = "Username is mandatory")
-    @NotBlank(message = "Username is mandatory")
-    private String username;
+    private String fullName;
+    private String email;
+    private String address;
+    private String postalCode;
+    private String district;
+    private String mobileNumber;
+    private boolean newsletter;
     private List<ProductDTO> products = new ArrayList<>();
     
 }
