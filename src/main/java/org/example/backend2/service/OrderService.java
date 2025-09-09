@@ -55,6 +55,7 @@ public class OrderService {
                 item.setOrder(order);
                 item.setProduct(product);
                 item.setQuantity(productDTO.getQuantity());
+                item.setPrice(product.getPrice());
 
                 order.getOrderItems().add(item);
             }

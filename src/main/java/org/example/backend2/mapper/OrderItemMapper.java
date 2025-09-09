@@ -13,6 +13,7 @@ public class OrderItemMapper {
                 .productId(orderItem.getProduct().getId())
                 .productName(orderItem.getProduct().getTitle())
                 .quantity(orderItem.getQuantity())
+                .price(orderItem.getPrice())
                 .build();
     }
 
