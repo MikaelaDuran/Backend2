@@ -68,8 +68,6 @@ public class UserController {
     }
 
 
-    //TODO: NU LIGGER ALLT PÅ PERMIT ALL. ANNARS KAN VI INTE TESTA
-    ///all-users","/all/{id}/delete","/all/{id}/role").permitAll()
     //Hämta alla användarna till user-role.html vyn
     @GetMapping("/all")
     public String allUsers(Model model) {
@@ -91,7 +89,6 @@ public class UserController {
     }
 
     // UPDATE ROLES
-
     @PostMapping("/all/{username}/role/add")
     public String assignRole(@PathVariable String username,  @RequestParam String role, RedirectAttributes redirectAttributes) {
         try {
