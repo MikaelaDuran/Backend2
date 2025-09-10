@@ -27,7 +27,6 @@ public class UserMapper {
 
 
     //Converts AppUser to DTO
-    //AKA doesn't bring password and only sends needed information
     public static UserDTO UserToDtoWithRole(AppUser e) {
         Set<String> roleNames = e.getRoles().stream()
                 .map(Role::getName)

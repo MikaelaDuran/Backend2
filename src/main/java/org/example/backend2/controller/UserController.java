@@ -60,7 +60,6 @@ public class UserController {
     }
 
 
-
     @GetMapping("/register")
     public String showRegister(Model model) {
         model.addAttribute("registrationRequest", new RegistrationRequest());

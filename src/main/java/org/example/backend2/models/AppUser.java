@@ -23,7 +23,6 @@ public class AppUser {
     private String username;
     private String password;
 
-    //Add Email if needed / have time
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
