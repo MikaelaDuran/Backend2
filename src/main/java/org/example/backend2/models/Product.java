@@ -9,14 +9,14 @@ import lombok.Setter;
 @Entity
 public class Product {
     @Id
-    public Long id; 
-    public String title;
-    public double price;
+    private Long id; 
+    private String title;
+    private double price;
     @Column(length = 1000)
-    public String description;
-    public String category;
-    public String image;
+    private String description;
+    private String category;
+    private String image;
 
     @Embedded
-    public Rating rating;
+    private Rating rating;
 }

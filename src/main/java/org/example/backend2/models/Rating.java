@@ -8,6 +8,6 @@ import lombok.Setter;
 @Getter
 @Embeddable
 public class Rating {
-    public double rate;
-    public int count;
+    private double rate;
+    private int count;
 }

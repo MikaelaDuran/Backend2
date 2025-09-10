@@ -7,6 +7,7 @@ import org.example.backend2.dto.LoginRequest;
 import org.example.backend2.dto.RegistrationRequest;
 import org.example.backend2.dto.UserDTO;
 import org.example.backend2.exceptions.CannotRemoveLastAdminException;
+import org.example.backend2.exceptions.UsernameAlreadyExistsException;
 import org.example.backend2.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -50,11 +51,17 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String userRegistration(RegistrationRequest registrationRequest) {
-        boolean success = userService.registerUser(registrationRequest);
-        if (success) {
+    public String userRegistration(RegistrationRequest registrationRequest,
+                                   Model model) {
+        try {
+            userService.registerUser(registrationRequest);
             return "redirect:/login";
-        } else {
+        } catch (UsernameAlreadyExistsException e) {
+            model.addAttribute("error", "Username already taken");
+            model.addAttribute("registrationRequest", new RegistrationRequest()); 
+            return "register";
+        } catch (Exception e) {
+            model.addAttribute("error", "Registration failed. Please try again.");
             return "register";
         }
     }

@@ -2,16 +2,16 @@ package org.example.backend2.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.backend2.dto.RegistrationRequest;
 import org.example.backend2.dto.UserDTO;
-import org.example.backend2.exceptions.RoleNotFoundException;
-import org.example.backend2.exceptions.UserNotFoundException;
-import org.example.backend2.exceptions.CannotRemoveLastAdminException;
+import org.example.backend2.exceptions.*;
 import org.example.backend2.mapper.UserMapper;
 import org.example.backend2.models.AppUser;
 import org.example.backend2.models.Role;
 import org.example.backend2.repository.RoleRepository;
 import org.example.backend2.repository.UserRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +20,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -75,11 +76,11 @@ public class UserService {
         return roleRepository.findByName(roleName)
                 .orElseThrow(() -> new RoleNotFoundException("Role not found"));
     }
-
-    // register new user.
-    public boolean registerUser(RegistrationRequest request) {
+    
+    
+    public void registerUser(RegistrationRequest request) {
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
-            return false;
+            throw new UsernameAlreadyExistsException("Username already taken");
         }
 
         Role role = findRole(DEFAULT_ROLE);
@@ -91,20 +92,16 @@ public class UserService {
 
         try {
             userRepository.save(user);
-            return true;
-        } catch (Exception e) {
-            throw new RuntimeException("Registration failed");
+        } catch (DataIntegrityViolationException e) {
+            log.error("Failed to save user: {}", e.getMessage());
+            throw new RegistrationException("Registration failed", e);
         }
     }
-
-    // verify log in
+    
     public boolean authenticateUser(String username, String password) {
         AppUser user = findUser(username);
 
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            return false;
-        }
-        return true;
+        return passwordEncoder.matches(password, user.getPassword());
     }
 
     public List<AppUser> findAllUsers() {
