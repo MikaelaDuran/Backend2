@@ -67,12 +67,12 @@ public class UserService {
     }
 
 
-    private AppUser findUser(String username) {
+    public AppUser findUser(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
-    private Role findRole(String roleName) {
+    public Role findRole(String roleName) {
         return roleRepository.findByName(roleName)
                 .orElseThrow(() -> new RoleNotFoundException("Role not found"));
     }
