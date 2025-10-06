@@ -26,10 +26,10 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     private static final String DEFAULT_ROLE = "USER";
 
-    
     public void assignRoleToUser(String username, String roleName) {
         AppUser user = findUser(username);
         Role role = findRole(roleName);
@@ -67,12 +67,12 @@ public class UserService {
     }
 
 
-    private AppUser findUser(String username) {
+    public AppUser findUser(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
-    private Role findRole(String roleName) {
+    public Role findRole(String roleName) {
         return roleRepository.findByName(roleName)
                 .orElseThrow(() -> new RoleNotFoundException("Role not found"));
     }
@@ -127,6 +127,6 @@ public class UserService {
 
 
     public List<UserDTO> findAllUsersDTO() {
-        return userRepository.findAll().stream().map(UserMapper::UserToDtoWithRole).toList();
+        return userRepository.findAll().stream().map(userMapper::UserToDtoWithRole).toList();
     }
 }
