@@ -27,6 +27,7 @@ public class OrderService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
+    private final OrderMapper orderMapper;
 
     @Transactional
     public boolean completeOrder(OrderRequest orderRequest) {
@@ -83,13 +84,13 @@ public class OrderService {
                 .orElseThrow(() -> new UserNotFoundException("User not found: " + username));
 
         List<ProductOrder> orders = orderRepository.findByAppUser(user);
-        return OrderMapper.multipleToDTO(orders);
+        return orderMapper.multipleToDTO(orders);
     }
 
     public List<OrderDTO> getAllOrders() {
         List<ProductOrder> orders = orderRepository.findAll();
         
-        return OrderMapper.multipleToDTO(orders);
+        return orderMapper.multipleToDTO(orders);
     }
 
     public void deleteById(long id) {
