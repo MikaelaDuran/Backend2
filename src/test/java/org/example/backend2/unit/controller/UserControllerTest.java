@@ -8,7 +8,6 @@ import org.example.backend2.service.FakeStoreProductSyncService;
 import org.example.backend2.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -49,7 +48,7 @@ public class UserControllerTest {
     void beforeEach() {
         Role admin = new Role();
         admin.setName("ADMIN");
-        when(roleRepository.findByName("admin")).thenReturn(java.util.Optional.of(admin));
+        when(roleRepository.findByName("ADMIN")).thenReturn(java.util.Optional.of(admin));
 
         when(passwordEncoder.encode(anyString())).thenReturn("encoded");
         when(userRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
@@ -66,11 +65,6 @@ public class UserControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/index"));
 
-        verify(userService).authenticateUser("mikaela", "secret");
+        verify(userService).authenticateUser("user1", "secret2");
     }
-
-
-
-
-
 }
