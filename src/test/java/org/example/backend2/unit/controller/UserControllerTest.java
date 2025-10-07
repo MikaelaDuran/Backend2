@@ -9,6 +9,7 @@ import org.example.backend2.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,6 +43,7 @@ public class UserControllerTest {
     @MockitoBean UserRepository userRepository;
     @MockitoBean RoleRepository roleRepository;
     @MockitoBean PasswordEncoder passwordEncoder;
+    @MockitoBean CommandLineRunner commandLineRunner;
     @MockitoBean FakeStoreProductSyncService  fakeStoreProductSyncService;
 
     @BeforeEach
