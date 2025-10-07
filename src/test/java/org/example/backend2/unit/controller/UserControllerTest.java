@@ -2,6 +2,7 @@ package org.example.backend2.unit.controller;
 
 import org.example.backend2.controller.UserController;
 import org.example.backend2.dto.UserDTO;
+import org.example.backend2.exceptions.CannotRemoveLastAdminException;
 import org.example.backend2.models.Role;
 import org.example.backend2.repository.RoleRepository;
 import org.example.backend2.repository.UserRepository;
@@ -133,5 +134,30 @@ public class UserControllerTest {
                         startsWith("Failed to assign role to user user1")));
 
         verify(userService).assignRoleToUser("user1", "ADMIN");
+    }
+
+
+    @Test
+    void removeRole_lastAdmin() throws Exception {
+        doThrow(new CannotRemoveLastAdminException("Cannot remove the last ADMIN from the system"))
+                .when(userService).removeRoleFromUser("user1", "ADMIN");
+
+        mockMvc.perform(post("/all/{username}/role/remove", "user1")
+                        .param("role", "ADMIN"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/all"))
+                .andExpect(flash().attribute("error",
+                        "Cannot remove the last ADMIN from the system"));
+
+        verify(userService).removeRoleFromUser("user1", "ADMIN");
+    }
+
+    @Test
+    void showRegisterTest() throws Exception {
+        mockMvc.perform(get("/register"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("register"))
+                .andExpect(model().attributeExists("registrationRequest"));
+
     }
 }
