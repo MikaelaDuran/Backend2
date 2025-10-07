@@ -1,6 +1,7 @@
 package org.example.backend2.unit.controller;
 
 import org.example.backend2.controller.UserController;
+import org.example.backend2.dto.UserDTO;
 import org.example.backend2.models.Role;
 import org.example.backend2.repository.RoleRepository;
 import org.example.backend2.repository.UserRepository;
@@ -12,19 +13,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
 
+import java.util.List;
+import java.util.Set;
+
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -39,6 +49,7 @@ public class UserControllerTest {
 
     @MockitoBean UserService userService;
 
+    @MockitoBean UserDTO userDTO;
     @MockitoBean Model model;
     @MockitoBean UserRepository userRepository;
     @MockitoBean RoleRepository roleRepository;
@@ -69,4 +80,23 @@ public class UserControllerTest {
 
         verify(userService).authenticateUser("user1", "secret2");
     }
+
+    @Test
+    void getAllUsers() throws Exception {
+        List<UserDTO> allUsers = List.of(
+                new UserDTO(1L, "user1", Set.of("USER")),
+                new UserDTO(2L, "user2", Set.of("ADMIN"))
+        );
+        when(userService.findAllUsersDTO()).thenReturn(allUsers);
+
+        mockMvc.perform(get("/all"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("appUsers"))
+                .andExpect(model().attribute("appUsers", hasSize(2)))
+                .andExpect(model().attribute("appUsers", contains(
+                        allOf(hasProperty("username", equalTo("user1"))),
+                        allOf(hasProperty("username", equalTo("user2")))
+                )));
+    }
+
 }
