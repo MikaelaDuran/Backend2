@@ -101,7 +101,7 @@ public class UserController {
             userService.assignRoleToUser(username, role);
             redirectAttributes.addFlashAttribute("message", "User " + username + " has been assigned role successfully");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Failed to assign role to user" + username+ ": " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Failed to assign role to user " + username+ ": " + e.getMessage());
         }
         return "redirect:/all";
     }
@@ -115,7 +115,7 @@ public class UserController {
         } catch (CannotRemoveLastAdminException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Failed to remove role from user " + username + ": " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Failed to remove role from user " + username + " : " + e.getMessage());
         }
         return "redirect:/all";
     }
